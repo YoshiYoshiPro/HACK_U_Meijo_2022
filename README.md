@@ -1,7 +1,7 @@
 # HACK_U_Meijo_2022-チームSpectacles
 
-# おばあちゃんの知恵袋SNS
-現代版![keirou_katamomi_obaachan2](https://user-images.githubusercontent.com/106864912/200448739-8fb2e019-4732-4ab2-9824-70e966deabb0.png)
+# 現代版おばあちゃんの知恵袋SNS
+![keirou_katamomi_obaachan2](https://user-images.githubusercontent.com/106864912/200448739-8fb2e019-4732-4ab2-9824-70e966deabb0.png)
 
 ## 開発背景
 SDSNによって2022年6月2日に発表された「Sustainable Development Report」（持続可能な開発報告書）の2022年版によれば、日本のSDGs達成度は163カ国中19位であり、17目標のうち深刻な課題が6つあるとされた。
