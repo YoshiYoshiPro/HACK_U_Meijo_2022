@@ -47,7 +47,7 @@ SDSNによって2022年6月2日に発表された「Sustainable Development Repo
 
 ### フレームワーク・ライブラリ・モジュール
 - Flask
-- React
+- Vue
 - line-bot-sdk-python
 
 ## 技術的工夫点
