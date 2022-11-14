@@ -53,6 +53,10 @@ SDSNによって2022年6月2日に発表された「Sustainable Development Repo
 ## 技術的工夫点
 - 
 
+# 関連リポジトリ
+- LINEBOTのリポジトリ
+https://github.com/YoshiYoshiPro/linebot-hack_u_2022
+
 # コーディング規約
 - コミットメッセージのフォーマットは以下を参考にされたい。
 ```
