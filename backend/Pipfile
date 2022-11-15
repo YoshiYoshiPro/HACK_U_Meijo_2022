@@ -7,6 +7,7 @@ name = "pypi"
 flask = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
+flask-cors = "*"
 
 [dev-packages]
 autopep8 = "*"
