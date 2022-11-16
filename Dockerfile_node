@@ -2,5 +2,6 @@ FROM node:16.13.0
 
 WORKDIR /usr/src/app
 
-RUN npm install -g @vue/cli && \
+RUN npm install && \
+    npm install -g @vue/cli && \
     npm install axios
