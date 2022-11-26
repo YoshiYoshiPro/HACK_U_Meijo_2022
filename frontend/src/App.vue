@@ -3,9 +3,16 @@
     <v-app-bar color="primary" dark app clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>OTASUKE</v-toolbar-title>
-      <v-space></v-space>
       <v-toolbar-items>
-        <v-btn v-on="on" text>投稿</v-btn>
+        <v-select
+          chips
+          label="投稿"
+          :items="tags"
+          multiple
+          hint="タグを選択してください"
+          persistent-hint
+          variant="underlined"
+        ></v-select>
       </v-toolbar-items>
     </v-app-bar>
 
@@ -13,9 +20,9 @@
       <template v-slot:prepend>
         <v-list-item
           lines="two"
-          prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
-          title="Jane Smith"
-          subtitle="Logged in"
+          prepend-avatar="https://randomuser.me/api/portraits/men/81.jpg"
+          title="山田太郎"
+          subtitle="ログイン済"
         ></v-list-item>
       </template>
 
@@ -23,19 +30,29 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          prepend-icon="mdi-home-city"
-          title="Home"
+          prepend-icon="mdi-home"
+          title="ホーム"
           value="home"
         ></v-list-item>
         <v-list-item
-          prepend-icon="mdi-account"
-          title="My Account"
-          value="account"
+          prepend-icon="mdi-check-bold"
+          title="タスク"
+          value="task"
         ></v-list-item>
         <v-list-item
-          prepend-icon="mdi-account-group-outline"
-          title="Users"
-          value="users"
+          prepend-icon="mdi-note"
+          title="ノート"
+          value="note"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-calendar"
+          title="イベント"
+          value="event"
+        ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-gamepad-variant"
+          title="ゲーム"
+          value="game"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -56,6 +73,7 @@ export default {
         { title: "My Account", icon: "mdi-account" },
         { title: "Users", icon: "mdi-account-group-outline" },
       ],
+      tags: ["家事", "育児"],
       drawer: null,
     };
   },
