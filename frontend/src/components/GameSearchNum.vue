@@ -41,28 +41,30 @@ export default {
 
   setup(props) {
     const shuffle = (array) => {
+      //配列をシャッフルする関数
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
     };
     const CircleIndexTable = _.chunk(
+      //セルをテーブル状に表示するための二次元配列
       [...Array(props.Size * props.Size).keys()],
       props.Size
     );
 
     const State = ref({
-      Circles: Array(props.Size * props.Size).fill(null),
-      ClickedArray: Array(props.Size * props.Size).fill(false),
-      NextClickNum: 1,
+      Circles: Array(props.Size * props.Size).fill(null), //セルに表示する数字を格納する配列
+      NextClickNum: 1, //次にクリックするべき数字
     });
     for (let i = 0; i < State.value.Circles.length; i++) {
+      //配列をいったん連番で初期化 比較演算子 <= は無限ループを起こすようなのでこのロジックで書いている
       State.value.Circles[i] = i + 1;
     }
-
-    shuffle(State.value.Circles);
+    shuffle(State.value.Circles); //配列をシャッフル
 
     const Message = computed(() => {
+      //ゲーム終了時のメッセージテキスト，カラー
       if (State.value.NextClickNum === GameEndNum) {
         return {
           Text: "Success!",
@@ -82,9 +84,10 @@ export default {
 
     const HandleClickCircleAt = (index) => {
       if (State.value.Circles[index] !== State.value.NextClickNum) {
+        //クリックした数字が正しくない場合
         return;
-      }
-      if (State.value.NextClickNum === GameEndNum) {
+      } else if (State.value.NextClickNum === GameEndNum) {
+        //ゲームが終了している場合
         return;
       }
       State.value.NextClickNum += 1;

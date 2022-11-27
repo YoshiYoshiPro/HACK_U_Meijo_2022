@@ -10,7 +10,7 @@ export default {
   props: {
     value: Number,
   },
-  emits: ["click"],
+  emits: ["click"], //正直，このemitsが何かよくわかっていない
 
   setup(props, context) {
     const handleClick = () => {
