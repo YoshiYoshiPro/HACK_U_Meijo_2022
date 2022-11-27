@@ -69,9 +69,11 @@ export default {
   data() {
     return {
       items: [
-        { title: "Home", icon: "mdi-home-city" },
-        { title: "My Account", icon: "mdi-account" },
-        { title: "Users", icon: "mdi-account-group-outline" },
+        { title: "ホーム", icon: "mdi-home" },
+        { title: "タスク", icon: "mdi-check-bold" },
+        { title: "ノート", icon: "mdi-note" },
+        { title: "イベント", icon: "mdi-calendar" },
+        { title: "ゲーム", icon: "mdi-gamepad-variant" },
       ],
       tags: ["家事", "育児"],
       drawer: null,
