@@ -29,7 +29,7 @@ export default {
   height: 75px;
   width: 75px;
   padding: 0;
-  margin: 5px;
+  margin: 10px;
   border: 2px solid black;
   font-size: 35px;
   cursor: pointer;
