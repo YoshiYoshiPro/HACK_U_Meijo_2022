@@ -6,15 +6,15 @@
     <div class="BoardWrap">
       <div
         class="BoardRow"
-        v-for="(Row, RowIndex) in CircleIndexTable"
+        v-for="(Row, RowIndex) in NumCellIndexTable"
         :key="RowIndex"
       >
         <GameNumCell
-          v-for="CircleIndex in Row"
-          :class="{ Hide: State.Circles[CircleIndex] === null }"
-          :key="CircleIndex"
-          :value="State.Circles[CircleIndex]"
-          @click="HandleClickCircleAt(CircleIndex)"
+          v-for="NumCellIndex in Row"
+          :class="{ Hide: State.NumCells[NumCellIndex] === null }"
+          :key="NumCellIndex"
+          :value="State.NumCells[NumCellIndex]"
+          @click="HandleClickNumCellAt(NumCellIndex)"
         />
       </div>
     </div>
@@ -24,6 +24,7 @@
 <script>
 import { computed, ref } from "vue";
 import GameNumCell from "./GameNumCell.vue";
+
 import _ from "lodash";
 
 export default {
@@ -47,24 +48,26 @@ export default {
         [array[i], array[j]] = [array[j], array[i]];
       }
     };
-    const CircleIndexTable = _.chunk(
+    const ArrayInit = (array) => {
+      for (let i = 0; i < array.length; i++) {
+        array[i] = i + 1;
+      }
+    };
+    const NumCellIndexTable = _.chunk(
       //セルをテーブル状に表示するための二次元配列
       [...Array(props.Size * props.Size).keys()],
       props.Size
     );
 
     const State = ref({
-      Circles: Array(props.Size * props.Size).fill(null), //セルに表示する数字を格納する配列
+      NumCells: Array(props.Size * props.Size).fill("init"), //セルに表示する数字を格納する配列
       NextClickNum: 1, //次にクリックするべき数字
     });
-    for (let i = 0; i < State.value.Circles.length; i++) {
-      //配列をいったん連番で初期化 比較演算子 <= は無限ループを起こすようなのでこのロジックで書いている
-      State.value.Circles[i] = i + 1;
-    }
-    shuffle(State.value.Circles); //配列をシャッフル
+    ArrayInit(State.value.NumCells);
+    shuffle(State.value.NumCells); //配列をシャッフル
 
     const Message = computed(() => {
-      //ゲーム終了時のメッセージテキスト，カラー
+      //ゲームの状態メッセージテキスト，カラー
       if (State.value.NextClickNum === GameEndNum) {
         return {
           Text: "Success!",
@@ -82,8 +85,8 @@ export default {
 
     const GameEndNum = props.Size * props.Size + 1;
 
-    const HandleClickCircleAt = (index) => {
-      if (State.value.Circles[index] !== State.value.NextClickNum) {
+    const HandleClickNumCellAt = (index) => {
+      if (State.value.NumCells[index] !== State.value.NextClickNum) {
         //クリックした数字が正しくない場合
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
@@ -91,13 +94,14 @@ export default {
         return;
       }
       State.value.NextClickNum += 1;
-      State.value.Circles[index] = null;
+      State.value.NumCells[index] = null;
     };
+
     return {
-      CircleIndexTable,
+      NumCellIndexTable,
       State,
       Message,
-      HandleClickCircleAt,
+      HandleClickNumCellAt,
     };
   },
 };
