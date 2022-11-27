@@ -3,7 +3,9 @@
     <div :style="Message">
       <h1>{{ Message.Text }}</h1>
     </div>
-    <div>ここにタイマー</div>
+    <div>
+      <h3>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h3>
+    </div>
   </div>
   <div class="MiddleBox">
     <div class="SearchNum">
@@ -46,7 +48,7 @@ export default {
   props: {
     Size: {
       type: Number,
-      default: 3,
+      default: 2,
     },
   },
 
@@ -63,6 +65,7 @@ export default {
         array[i] = i + 1;
       }
     };
+
     const NumCellIndexTable = _.chunk(
       //セルをテーブル状に表示するための二次元配列
       [...Array(props.Size * props.Size).keys()],
@@ -79,6 +82,7 @@ export default {
     const Message = computed(() => {
       //ゲームの状態メッセージテキスト，カラー
       if (State.value.NextClickNum === GameEndNum) {
+        TimerStop();
         return {
           Text: "Success!",
           color: "cornflowerblue",
@@ -101,21 +105,55 @@ export default {
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
         //ゲームが終了している場合
+        TimerStop();
         return;
+      }
+
+      if (!Timer.value.Active) {
+        TimerStart();
       }
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
     };
 
+    const Timer = ref({
+      Active: false, // 実行状態
+      Start: 0, // startを押した時刻
+      Time: 0, // setInterval()の格納用
+      Interval: 0, // 計測時間
+      Accum: 0, // 累積時間
+    });
+    const TimerStart = () => {
+      Timer.value.Active = true;
+      Timer.value.Start = Date.now();
+      Timer.value.Time = setInterval(() => {
+        Timer.value.Interval =
+          Timer.value.Accum + (Date.now() - Timer.value.Start) * 0.001;
+      }, 10); // 10msごとに現在時刻とstartを押した時刻の差を足す
+    };
+
+    const TimerStop = () => {
+      Timer.value.Active = false;
+      Timer.value.Accum = Timer.value.Interval;
+      clearInterval(Timer.value.Time);
+    };
+    const TimerReset = () => {
+      Timer.value.Interval = 0;
+      Timer.value.Accum = 0;
+      Timer.value.Start = Date.now();
+    };
+
     const GameReset = () => {
       ArrayInit(State.value.NumCells);
       shuffle(State.value.NumCells);
+      TimerReset();
       State.value.NextClickNum = 1;
     };
     return {
       NumCellIndexTable,
       State,
       Message,
+      Timer,
       HandleClickNumCellAt,
       GameReset,
     };
