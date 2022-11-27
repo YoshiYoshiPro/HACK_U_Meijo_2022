@@ -1,38 +1,41 @@
 <template>
-  <div>
-    <h2>{{ Message }}</h2>
+  <div :style="Message">
+    <h1>{{ Message.Text }}</h1>
   </div>
   <div class="SearchNum">
-    <div
-      class="BoardRow"
-      v-for="(Row, RowIndex) in CircleIndexTable"
-      :key="RowIndex"
-    >
-      <GameCircleVue
-        v-for="CircleIndex in Row"
-        :key="CircleIndex"
-        :value="State.Circles[CircleIndex]"
-        @click="HandleClickCircleAt(CircleIndex)"
-      />
+    <div class="BoardWrap">
+      <div
+        class="BoardRow"
+        v-for="(Row, RowIndex) in CircleIndexTable"
+        :key="RowIndex"
+      >
+        <GameNumCell
+          v-for="CircleIndex in Row"
+          :class="{ Hide: State.Circles[CircleIndex] === null }"
+          :key="CircleIndex"
+          :value="State.Circles[CircleIndex]"
+          @click="HandleClickCircleAt(CircleIndex)"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { computed, ref } from "vue";
-import GameCircleVue from "./GameCircle.vue";
+import GameNumCell from "./GameNumCell.vue";
 import _ from "lodash";
 
 export default {
   name: "GameSarchNum",
   components: {
-    GameCircleVue,
+    GameNumCell,
   },
 
   props: {
     Size: {
       type: Number,
-      default: 2,
+      default: 3,
     },
   },
 
@@ -61,11 +64,18 @@ export default {
 
     const Message = computed(() => {
       if (State.value.NextClickNum === GameEndNum) {
-        return "Success!";
+        return {
+          Text: "Success!",
+          color: "cornflowerblue",
+        };
       } else if (State.value.NextClickNum > 1) {
-        return "Playing...";
+        return {
+          Text: "Playing...",
+        };
       }
-      return "Please Start Game !";
+      return {
+        Text: "Please Start Game !",
+      };
     });
 
     const GameEndNum = props.Size * props.Size + 1;
@@ -92,11 +102,19 @@ export default {
 <style scoped>
 .SearchNum {
   border: 2px solid black;
+  justify-content: center;
+  align-items: center;
 }
 
-.BoardRow:after {
-  clear: both;
-  content: "";
-  display: table;
+.BoardWrap {
+  display: inline-block;
+  margin: 20px;
+  aspect-ratio: 3/4;
+  color: dodgerblue;
+}
+
+.Hide {
+  border: 0px;
+  background-color: #fff;
 }
 </style>

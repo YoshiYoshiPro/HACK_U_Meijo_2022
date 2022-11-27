@@ -26,12 +26,12 @@ export default {
 
 <style scoped>
 .circle {
-  height: 60px;
-  width: 60px;
+  height: 75px;
+  width: 75px;
   padding: 0;
   margin: 5px;
   border: 2px solid black;
-  font-size: 25px;
+  font-size: 35px;
   cursor: pointer;
 }
 </style>
