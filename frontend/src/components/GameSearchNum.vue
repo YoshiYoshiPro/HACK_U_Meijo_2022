@@ -1,21 +1,31 @@
 <template>
-  <div :style="Message">
-    <h1>{{ Message.Text }}</h1>
+  <div class="TopBox">
+    <div :style="Message">
+      <h1>{{ Message.Text }}</h1>
+    </div>
+    <div>ここにタイマー</div>
   </div>
-  <div class="SearchNum">
-    <div class="BoardWrap">
-      <div
-        class="BoardRow"
-        v-for="(Row, RowIndex) in NumCellIndexTable"
-        :key="RowIndex"
-      >
-        <GameNumCell
-          v-for="NumCellIndex in Row"
-          :class="{ Hide: State.NumCells[NumCellIndex] === null }"
-          :key="NumCellIndex"
-          :value="State.NumCells[NumCellIndex]"
-          @click="HandleClickNumCellAt(NumCellIndex)"
-        />
+  <div class="MiddleBox">
+    <div class="SearchNum">
+      <div class="BoardWrap">
+        <div
+          class="BoardRow"
+          v-for="(Row, RowIndex) in NumCellIndexTable"
+          :key="RowIndex"
+        >
+          <GameNumCell
+            v-for="NumCellIndex in Row"
+            :class="{ Hide: State.NumCells[NumCellIndex] === null }"
+            :key="NumCellIndex"
+            :value="State.NumCells[NumCellIndex]"
+            @click="HandleClickNumCellAt(NumCellIndex)"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="BottomBox">
+      <div class="ResetWrap M30">
+        <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
       </div>
     </div>
   </div>
@@ -97,26 +107,62 @@ export default {
       State.value.NumCells[index] = null;
     };
 
+    const GameReset = () => {
+      ArrayInit(State.value.NumCells);
+      shuffle(State.value.NumCells);
+      State.value.NextClickNum = 1;
+    };
     return {
       NumCellIndexTable,
       State,
       Message,
       HandleClickNumCellAt,
+      GameReset,
     };
   },
 };
 </script>
 <style scoped>
-.SearchNum {
-  border: 2px solid black;
-  justify-content: center;
-  align-items: center;
+.Mb30 {
+  margin-bottom: 30px;
 }
 
+.M30 {
+  margin: 30px;
+}
+
+.TopBox {
+  border: 1px solid black;
+}
+.MiddleBox {
+  border: 1px solid black;
+}
+.BottomBox {
+  border: 1px solid black;
+}
+
+.SearchNum {
+  border: 1px solid black;
+}
+
+.ResetWrap {
+  display: inline-block;
+  border: 2px solid black;
+  padding: 5px;
+}
+.Reset {
+  width: 100px;
+  height: 100px;
+  border: 1px solid aquamarine;
+  border-radius: 50%;
+  background-color: red;
+  color: azure;
+  cursor: pointer;
+}
 .BoardWrap {
   display: inline-block;
   margin: 20px;
-  aspect-ratio: 3/4;
+  aspect-ratio: 10/12;
   color: dodgerblue;
 }
 
