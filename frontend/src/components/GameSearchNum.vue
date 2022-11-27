@@ -1,14 +1,17 @@
 <template>
-  <div class="TopBox">
-    <div :style="Message">
-      <h1>{{ Message.Text }}</h1>
-    </div>
-    <div>
-      <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
+  <div class="Top Box">
+    <div class="Center">
+      <div :style="Message">
+        <h1>{{ Message.Text }}</h1>
+      </div>
+      <div>
+        <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
+      </div>
     </div>
   </div>
-  <div class="MiddleBox">
-    <div class="SearchNum">
+  <div class="Middle Box">
+    <div class="Side Left"></div>
+    <div class="Center">
       <div class="BoardWrap">
         <div
           class="BoardRow"
@@ -25,10 +28,16 @@
         </div>
       </div>
     </div>
-    <div class="BottomBox">
-      <div class="ResetWrap M30">
-        <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
+    <div class="Side Right">
+      <div class="HintWrap">
+        <button @click="HintClickAt"><h3>ヒント！</h3></button>
+        <h2 v-if="State.IsShowHint">{{ State.NextClickNum }}</h2>
       </div>
+    </div>
+  </div>
+  <div class="Bottom Box">
+    <div class="ResetWrap">
+      <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
     </div>
   </div>
 </template>
@@ -74,6 +83,7 @@ export default {
     const State = ref({
       NumCells: Array(props.Size * props.Size).fill("init"), //セルに表示する数字を格納する配列
       NextClickNum: 1, //次にクリックするべき数字
+      IsShowHint: false,
     });
     ArrayInit(State.value.NumCells);
     shuffle(State.value.NumCells); //配列をシャッフル
@@ -106,12 +116,17 @@ export default {
         //ゲームが終了している場合
         return;
       }
-
       if (!Timer.value.Active) {
         TimerStart();
       }
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
+      State.value.IsShowHint = false;
+    };
+
+    const HintClickAt = () => {
+      State.value.IsShowHint = true;
+      return;
     };
 
     const Timer = ref({
@@ -154,37 +169,78 @@ export default {
       Message,
       Timer,
       HandleClickNumCellAt,
+      HintClickAt,
       GameReset,
     };
   },
 };
 </script>
 <style scoped>
-.Mb30 {
-  margin-bottom: 30px;
+.Box {
+  /*Top Middle Bottom の3つに分けたすべてのBoxに適用*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: flex-start;
 }
 
-.M30 {
-  margin: 30px;
+/*上部*/
+.Top {
+  border: 1px solid black;
+  height: 150px;
 }
 
-.TopBox {
+/*中間部*/
+.Middle {
   border: 1px solid black;
-}
-.MiddleBox {
-  border: 1px solid black;
-}
-.BottomBox {
-  border: 1px solid black;
+  vertical-align: top;
+  min-height: 500px;
+  max-height: 65vh;
 }
 
-.SearchNum {
+.Center {
+  border: 0px solid black;
+  padding: 0;
+}
+.BoardWrap {
+  border: 0px solid #444;
+  display: inline-block;
+  aspect-ratio: 10/12;
+  color: dodgerblue;
+}
+.Hide {
+  border: 0px;
+  background-color: #fff;
+}
+
+/*中間横部分 */
+.Middle .Side {
+  width: 10%;
+  min-height: 100%;
+  display: inline-block;
+  border: 0px solid black;
+  margin: 10px;
+}
+.HintWrap {
+  border: 0px solid black;
+  position: relative;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10%;
+  background-color: #ddd;
+}
+
+/*下部*/
+.Bottom {
   border: 1px solid black;
+  height: 140px;
 }
 
 .ResetWrap {
   display: inline-block;
   border: 2px solid black;
+  background-color: cyan;
+  margin: 10px;
   padding: 5px;
 }
 .Reset {
@@ -195,16 +251,5 @@ export default {
   background-color: red;
   color: azure;
   cursor: pointer;
-}
-.BoardWrap {
-  display: inline-block;
-  margin: 20px;
-  aspect-ratio: 10/12;
-  color: dodgerblue;
-}
-
-.Hide {
-  border: 0px;
-  background-color: #fff;
 }
 </style>
