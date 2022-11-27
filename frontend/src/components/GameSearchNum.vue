@@ -4,7 +4,7 @@
       <h1>{{ Message.Text }}</h1>
     </div>
     <div>
-      <h3>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h3>
+      <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
     </div>
   </div>
   <div class="MiddleBox">
@@ -36,7 +36,6 @@
 <script>
 import { computed, ref } from "vue";
 import GameNumCell from "./GameNumCell.vue";
-
 import _ from "lodash";
 
 export default {
@@ -48,7 +47,7 @@ export default {
   props: {
     Size: {
       type: Number,
-      default: 2,
+      default: 5,
     },
   },
 
@@ -105,7 +104,6 @@ export default {
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
         //ゲームが終了している場合
-        TimerStop();
         return;
       }
 
@@ -146,6 +144,7 @@ export default {
     const GameReset = () => {
       ArrayInit(State.value.NumCells);
       shuffle(State.value.NumCells);
+      TimerStop();
       TimerReset();
       State.value.NextClickNum = 1;
     };
