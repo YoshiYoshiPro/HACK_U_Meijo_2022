@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static\css\childcare.css">
+    <link rel="stylesheet" href="static\css\reset.css">
+</head>
+<body>
+    <div class="title-inner">
+        <h1 class="title">育児ノート</h1>
+        <p class="title-text">右下のボタンから記録をしましょう。</p>
+    </div>
+
+    <main class="main">
+        <section class="section-wrap">
+            <div class="section-inner">
+                <!--ここに記録-->
+                <!--ここにテキストボックスから入力された日付ジャンルを表示-->
+                {%- for i in range(date_array|length) %}
+                    <div class="content-wrap">
+                        <label for="label1">{{date_array}}</label>
+                        <input type="checkbox" id="label1" class="switch" />
+                        <div class="content">
+                            <p>{{genre_array[i]}}</p>
+                            <p>{{contents_array[i]}}</p>
+                        </div>
+                    </div>
+                {%- endfor %}
+                
+                
+
+            </div>
+        </section>
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <section class="section-modal">
+                <div id="div-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1>記録</h1>
+                            <span class="modal-close">x</span>
+                        </div>
+                        <div>
+                            <select class="genre-select">
+                                <option value="">ジャンルを選択してください。</option>
+                                <option value="genre1">ごはん</option>
+                                <option value="genre2">トイレ</option>
+                                <option value="genre3">睡眠</option>
+                                <option value="genre4">お風呂</option>
+                                <option value="genre5">体重</option>
+                                <option value="genre6">体温</option>
+                            </select>
+                        </div>
+                        <div class="modal-body">
+                            <input type="datetime-local" class="input-time">
+                            <p>
+                                内容を入力してください。<br>
+                                <textarea class="input-text" placeholder="ここに入力"></textarea><br>
+                            </p>
+                            <button id="record-button" class="record-btn">記録</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </main>
+
+    <!--ボタンを作成-->
+    <button type="button" id="modal-open" class="add_btn">
+        <img src="image\pencil.jpg" alt="＋">
+    </button>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.11/dist/vue.js"></script>
+    <script src="static\js\childcare.js"></script>
+</body>
+</html>
