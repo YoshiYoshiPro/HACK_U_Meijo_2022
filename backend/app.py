@@ -43,4 +43,7 @@ def random():
 
 # app.run(host, port)：hostとportを指定してflaskサーバを起動
 if __name__ == '__main__':
-    app.run(debug=True, host='localhost', port=5000)
+    app.run(host='0.0.0.0', debug=True)
+
+    # app.run(debug=True, host='localhost', port=5000)
+

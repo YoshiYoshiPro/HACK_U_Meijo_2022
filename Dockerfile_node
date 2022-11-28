@@ -2,8 +2,11 @@ FROM node:16.13.0
 
 WORKDIR /usr/src/app
 
-COPY ./ /usr/src/app
+COPY ./frontend /usr/src/app
 
 RUN npm install && \
     npm install -g @vue/cli && \
-    npm install axios
+    npm install axios && \
+    npm install -g yarn && \
+    npm run build && \
+    npm run serve

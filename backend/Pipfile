@@ -1,2 +1,0 @@
-[scripts]
-start = "python main.py"
