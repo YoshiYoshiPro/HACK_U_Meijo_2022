@@ -116,6 +116,7 @@ export default {
     const HandleClickNumCellAt = (index) => {
       if (State.value.NumCells[index] !== State.value.NextClickNum) {
         //クリックした数字が正しくない場合
+        MissClick();
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
         //ゲームが終了している場合
@@ -124,6 +125,7 @@ export default {
       if (!Timer.value.Active) {
         TimerStart();
       }
+      CorrectClick();
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
       State.value.IsShowHint = false;
@@ -132,6 +134,17 @@ export default {
     const HintClickAt = () => {
       State.value.IsShowHint = true;
       return;
+    };
+
+    const MissSound = new Audio(require("../assets/MissSound.mp3"));
+    const CorrectSound = new Audio(require("../assets/CorrectSound.mp3"));
+    const MissClick = () => {
+      MissSound.currentTime = 0;
+      MissSound.play();
+    };
+    const CorrectClick = () => {
+      CorrectSound.currentTime = 0;
+      CorrectSound.play();
     };
 
     const Timer = ref({
