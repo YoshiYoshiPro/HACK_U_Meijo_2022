@@ -29,8 +29,12 @@ export default {
   height: 75px;
   width: 75px;
   padding: 0;
-  margin: 10px;
-  border: 2px solid black;
+  margin: 13px;
+  border: 2px;
+  border-style: solid;
+  border-color: orangered;
+  border-radius: 15%;
+  background-color: beige;
   font-size: 35px;
   cursor: pointer;
 }
