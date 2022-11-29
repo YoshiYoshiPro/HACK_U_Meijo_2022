@@ -1,14 +1,17 @@
 <template>
-  <div class="TopBox">
-    <div :style="Message">
-      <h1>{{ Message.Text }}</h1>
-    </div>
-    <div>
-      <h3>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h3>
+  <div class="Top Box">
+    <div class="Center">
+      <div :style="Message">
+        <h1>{{ Message.Text }}</h1>
+      </div>
+      <div>
+        <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
+      </div>
     </div>
   </div>
-  <div class="MiddleBox">
-    <div class="SearchNum">
+  <div class="Middle Box">
+    <div class="Side Left"></div>
+    <div class="Center">
       <div class="BoardWrap">
         <div
           class="BoardRow"
@@ -17,7 +20,10 @@
         >
           <GameNumCell
             v-for="NumCellIndex in Row"
-            :class="{ Hide: State.NumCells[NumCellIndex] === null }"
+            :class="{
+              Hide: State.NumCells[NumCellIndex] === null,
+              Show: State.NumCells[NumCellIndex] !== null,
+            }"
             :key="NumCellIndex"
             :value="State.NumCells[NumCellIndex]"
             @click="HandleClickNumCellAt(NumCellIndex)"
@@ -25,10 +31,21 @@
         </div>
       </div>
     </div>
-    <div class="BottomBox">
-      <div class="ResetWrap M30">
-        <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
+    <div class="Side Right">
+      <div class="HintWrap">
+        <button @click="HintClickAt">
+          <img class="HintBulb" src="../assets/LightBulb.png" />
+          <p><b>ヒント！</b></p>
+        </button>
+        <h2 class="HintNum" v-if="State.IsShowHint">
+          {{ State.NextClickNum }}
+        </h2>
       </div>
+    </div>
+  </div>
+  <div class="Bottom Box">
+    <div class="ResetWrap">
+      <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
     </div>
   </div>
 </template>
@@ -36,7 +53,6 @@
 <script>
 import { computed, ref } from "vue";
 import GameNumCell from "./GameNumCell.vue";
-
 import _ from "lodash";
 
 export default {
@@ -48,7 +64,7 @@ export default {
   props: {
     Size: {
       type: Number,
-      default: 2,
+      default: 5,
     },
   },
 
@@ -75,6 +91,7 @@ export default {
     const State = ref({
       NumCells: Array(props.Size * props.Size).fill("init"), //セルに表示する数字を格納する配列
       NextClickNum: 1, //次にクリックするべき数字
+      IsShowHint: false,
     });
     ArrayInit(State.value.NumCells);
     shuffle(State.value.NumCells); //配列をシャッフル
@@ -102,18 +119,35 @@ export default {
     const HandleClickNumCellAt = (index) => {
       if (State.value.NumCells[index] !== State.value.NextClickNum) {
         //クリックした数字が正しくない場合
+        MissClick();
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
         //ゲームが終了している場合
-        TimerStop();
         return;
       }
-
       if (!Timer.value.Active) {
         TimerStart();
       }
+      CorrectClick();
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
+      State.value.IsShowHint = false;
+    };
+
+    const HintClickAt = () => {
+      State.value.IsShowHint = true;
+      return;
+    };
+
+    const MissSound = new Audio(require("../assets/MissSound.mp3"));
+    const CorrectSound = new Audio(require("../assets/CorrectSound.mp3"));
+    const MissClick = () => {
+      MissSound.currentTime = 0;
+      MissSound.play();
+    };
+    const CorrectClick = () => {
+      CorrectSound.currentTime = 0;
+      CorrectSound.play();
     };
 
     const Timer = ref({
@@ -146,66 +180,133 @@ export default {
     const GameReset = () => {
       ArrayInit(State.value.NumCells);
       shuffle(State.value.NumCells);
+      TimerStop();
       TimerReset();
       State.value.NextClickNum = 1;
+      State.value.IsShowHint = false;
     };
+
     return {
       NumCellIndexTable,
       State,
       Message,
       Timer,
       HandleClickNumCellAt,
+      HintClickAt,
       GameReset,
     };
   },
 };
 </script>
 <style scoped>
-.Mb30 {
-  margin-bottom: 30px;
+.Box {
+  /*Top Middle Bottom の3つに分けたすべてのBoxに適用*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: flex-start;
 }
 
-.M30 {
-  margin: 30px;
+/*上部*/
+.Top {
+  border: 0;
+  border-left: 30px;
+  border-right: 30px;
+  border-style: double;
+  border-color: steelblue;
+  height: 150px;
 }
 
-.TopBox {
-  border: 1px solid black;
-}
-.MiddleBox {
-  border: 1px solid black;
-}
-.BottomBox {
-  border: 1px solid black;
+/*中間部*/
+.Middle {
+  vertical-align: top;
+  min-height: 500px;
+  max-height: 65vh;
 }
 
-.SearchNum {
-  border: 1px solid black;
+.Center {
+  border: 0px solid black;
+  padding: 0;
+}
+.BoardWrap {
+  border: 0px solid #444;
+  display: inline-block;
+  aspect-ratio: 10/12;
+  color: dodgerblue;
+}
+.Hide {
+  margin: 5px;
+  visibility: hidden;
+}
+.Show {
+  margin: 5px;
+}
+/*中間横部分 */
+.Middle .Side {
+  width: 15%;
+  min-height: 100%;
+  display: inline-block;
+  margin: 10px;
+}
+.HintWrap {
+  position: relative;
+  display: inline-block;
+  padding: 3px;
+  border-radius: 10px;
+  background-color: darkorange;
+}
+.HintWrap p {
+  font-size: 20px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: beige;
+}
+.HintWrap button {
+  background-color: #6666ff;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+.HintBulb {
+  height: 60px;
+  width: auto;
+  padding: 10px;
+}
+.HintNum {
+  font-size: 40px;
+  margin: 15px;
+  color: #fff;
+}
+
+/*下部*/
+.Bottom {
+  height: 140px;
+  border: 0;
+  border-bottom: 4px;
+  border-color: #eb6100;
+  border-style: dotted;
 }
 
 .ResetWrap {
   display: inline-block;
-  border: 2px solid black;
+  border: 0px solid black;
+  margin: 10px;
   padding: 5px;
 }
+
 .Reset {
   width: 100px;
-  height: 100px;
-  border: 1px solid aquamarine;
-  border-radius: 50%;
-  background-color: red;
-  color: azure;
+  height: 60px;
+  border: 0;
+  border-bottom: 5px solid #cc0100;
+  border-radius: 10%;
+  background-color: #eb6100;
+  color: #fff;
   cursor: pointer;
 }
-.BoardWrap {
-  display: inline-block;
-  margin: 20px;
-  aspect-ratio: 10/12;
-  color: dodgerblue;
-}
-
-.Hide {
-  border: 0px;
-  background-color: #fff;
+.Reset:hover {
+  margin-top: 3px;
+  background: #f56500;
+  border-bottom: 2px solid #cc0100;
 }
 </style>
