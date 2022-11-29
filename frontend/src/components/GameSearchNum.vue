@@ -20,7 +20,10 @@
         >
           <GameNumCell
             v-for="NumCellIndex in Row"
-            :class="{ Hide: State.NumCells[NumCellIndex] === null }"
+            :class="{
+              Hide: State.NumCells[NumCellIndex] === null,
+              Show: State.NumCells[NumCellIndex] !== null,
+            }"
             :key="NumCellIndex"
             :value="State.NumCells[NumCellIndex]"
             @click="HandleClickNumCellAt(NumCellIndex)"
@@ -182,6 +185,7 @@ export default {
       State.value.NextClickNum = 1;
       State.value.IsShowHint = false;
     };
+
     return {
       NumCellIndexTable,
       State,
@@ -231,10 +235,12 @@ export default {
   color: dodgerblue;
 }
 .Hide {
-  border: 0px;
-  background-color: #fff;
+  margin: 5px;
+  visibility: hidden;
 }
-
+.Show {
+  margin: 5px;
+}
 /*中間横部分 */
 .Middle .Side {
   width: 15%;
