@@ -22,17 +22,9 @@
           lines="two"
           prepend-avatar="https://randomuser.me/api/portraits/men/81.jpg"
           title="山田太郎"
-          subtitle="ログイン済"
+          subtitle="hogehoge@gmail.com"
         ></v-list-item>
       </template>
-      <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/task">Task</router-link> |
-    <router-link to="/game">Game</router-link>
-  </nav>
-  <router-view />
-</template> -->
 
       <v-divider></v-divider>
 
@@ -41,11 +33,15 @@
           prepend-icon="mdi-home"
           title="ホーム"
           value="home"
+          flat
+          to="/"
         ></v-list-item>
         <v-list-item
           prepend-icon="mdi-check-bold"
           title="タスク"
           value="task"
+          flat
+          to="/task"
         ></v-list-item>
         <v-list-item
           prepend-icon="mdi-note"
@@ -61,12 +57,14 @@
           prepend-icon="mdi-gamepad-variant"
           title="ゲーム"
           value="game"
+          flat
+          to="/game"
         ></v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <!-- <v-main>
+    <v-main>
       <router-view />
-    </v-main> -->
+    </v-main>
   </v-app>
 </template>
 
