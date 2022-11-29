@@ -20,7 +20,10 @@
         >
           <GameNumCell
             v-for="NumCellIndex in Row"
-            :class="{ Hide: State.NumCells[NumCellIndex] === null }"
+            :class="{
+              Hide: State.NumCells[NumCellIndex] === null,
+              Show: State.NumCells[NumCellIndex] !== null,
+            }"
             :key="NumCellIndex"
             :value="State.NumCells[NumCellIndex]"
             @click="HandleClickNumCellAt(NumCellIndex)"
@@ -30,8 +33,13 @@
     </div>
     <div class="Side Right">
       <div class="HintWrap">
-        <button @click="HintClickAt"><h3>ヒント！</h3></button>
-        <h2 v-if="State.IsShowHint">{{ State.NextClickNum }}</h2>
+        <button @click="HintClickAt">
+          <img class="HintBulb" src="../assets/LightBulb.png" />
+          <p><b>ヒント！</b></p>
+        </button>
+        <h2 class="HintNum" v-if="State.IsShowHint">
+          {{ State.NextClickNum }}
+        </h2>
       </div>
     </div>
   </div>
@@ -111,6 +119,7 @@ export default {
     const HandleClickNumCellAt = (index) => {
       if (State.value.NumCells[index] !== State.value.NextClickNum) {
         //クリックした数字が正しくない場合
+        MissClick();
         return;
       } else if (State.value.NextClickNum === GameEndNum) {
         //ゲームが終了している場合
@@ -119,6 +128,7 @@ export default {
       if (!Timer.value.Active) {
         TimerStart();
       }
+      CorrectClick();
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
       State.value.IsShowHint = false;
@@ -127,6 +137,17 @@ export default {
     const HintClickAt = () => {
       State.value.IsShowHint = true;
       return;
+    };
+
+    const MissSound = new Audio(require("../assets/MissSound.mp3"));
+    const CorrectSound = new Audio(require("../assets/CorrectSound.mp3"));
+    const MissClick = () => {
+      MissSound.currentTime = 0;
+      MissSound.play();
+    };
+    const CorrectClick = () => {
+      CorrectSound.currentTime = 0;
+      CorrectSound.play();
     };
 
     const Timer = ref({
@@ -162,7 +183,9 @@ export default {
       TimerStop();
       TimerReset();
       State.value.NextClickNum = 1;
+      State.value.IsShowHint = false;
     };
+
     return {
       NumCellIndexTable,
       State,
@@ -186,13 +209,16 @@ export default {
 
 /*上部*/
 .Top {
-  border: 1px solid black;
+  border: 0;
+  border-left: 30px;
+  border-right: 30px;
+  border-style: double;
+  border-color: steelblue;
   height: 150px;
 }
 
 /*中間部*/
 .Middle {
-  border: 1px solid black;
   vertical-align: top;
   min-height: 500px;
   max-height: 65vh;
@@ -209,47 +235,78 @@ export default {
   color: dodgerblue;
 }
 .Hide {
-  border: 0px;
-  background-color: #fff;
+  margin: 5px;
+  visibility: hidden;
 }
-
+.Show {
+  margin: 5px;
+}
 /*中間横部分 */
 .Middle .Side {
-  width: 10%;
+  width: 15%;
   min-height: 100%;
   display: inline-block;
-  border: 0px solid black;
   margin: 10px;
 }
 .HintWrap {
-  border: 0px solid black;
   position: relative;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 10%;
-  background-color: #ddd;
+  display: inline-block;
+  padding: 3px;
+  border-radius: 10px;
+  background-color: darkorange;
+}
+.HintWrap p {
+  font-size: 20px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: beige;
+}
+.HintWrap button {
+  background-color: #6666ff;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+.HintBulb {
+  height: 60px;
+  width: auto;
+  padding: 10px;
+}
+.HintNum {
+  font-size: 40px;
+  margin: 15px;
+  color: #fff;
 }
 
 /*下部*/
 .Bottom {
-  border: 1px solid black;
   height: 140px;
+  border: 0;
+  border-bottom: 4px;
+  border-color: #eb6100;
+  border-style: dotted;
 }
 
 .ResetWrap {
   display: inline-block;
-  border: 2px solid black;
-  background-color: cyan;
+  border: 0px solid black;
   margin: 10px;
   padding: 5px;
 }
+
 .Reset {
   width: 100px;
-  height: 100px;
-  border: 1px solid aquamarine;
-  border-radius: 50%;
-  background-color: red;
-  color: azure;
+  height: 60px;
+  border: 0;
+  border-bottom: 5px solid #cc0100;
+  border-radius: 10%;
+  background-color: #eb6100;
+  color: #fff;
   cursor: pointer;
+}
+.Reset:hover {
+  margin-top: 3px;
+  background: #f56500;
+  border-bottom: 2px solid #cc0100;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
-  <button class="circle" @click="handleClick">
-    {{ value }}
+  <button class="NumCellButton" @click="handleClick">
+    <div class="NumCell">
+      {{ value }}
+    </div>
   </button>
 </template>
 
@@ -25,13 +27,29 @@ export default {
 </script>
 
 <style scoped>
-.circle {
+.NumCellButton {
+  height: 95px;
+  width: 95px;
+  margin: 5px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  vertical-align: top;
+}
+
+.NumCell {
   height: 75px;
   width: 75px;
-  padding: 0;
-  margin: 10px;
-  border: 2px solid black;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px;
+  border-style: solid;
+  border-color: orangered;
+  border-radius: 15%;
+  background-color: beige;
   font-size: 35px;
-  cursor: pointer;
 }
 </style>
