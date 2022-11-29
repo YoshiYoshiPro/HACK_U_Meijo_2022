@@ -1,51 +1,55 @@
 <template>
-  <div class="Top Box">
-    <div class="Center">
-      <div :style="Message">
-        <h1>{{ Message.Text }}</h1>
-      </div>
-      <div>
-        <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
-      </div>
-    </div>
-  </div>
-  <div class="Middle Box">
-    <div class="Side Left"></div>
-    <div class="Center">
-      <div class="BoardWrap">
-        <div
-          class="BoardRow"
-          v-for="(Row, RowIndex) in NumCellIndexTable"
-          :key="RowIndex"
-        >
-          <GameNumCell
-            v-for="NumCellIndex in Row"
-            :class="{
-              Hide: State.NumCells[NumCellIndex] === null,
-              Show: State.NumCells[NumCellIndex] !== null,
-            }"
-            :key="NumCellIndex"
-            :value="State.NumCells[NumCellIndex]"
-            @click="HandleClickNumCellAt(NumCellIndex)"
-          />
+  <meta name="viewport" content="width-device-wwidth,initial-scale=1" />
+
+  <div class="SearchNumContainer">
+    <div class="Top Box">
+      <div class="Center">
+        <div :style="Message">
+          <h1>{{ Message.Text }}</h1>
+        </div>
+        <div>
+          <h2>クリア時間:{{ Timer.Interval.toFixed(2) }}秒</h2>
         </div>
       </div>
     </div>
-    <div class="Side Right">
-      <div class="HintWrap">
-        <button @click="HintClickAt">
-          <img class="HintBulb" src="../assets/LightBulb.png" />
-          <p><b>ヒント！</b></p>
-        </button>
-        <h2 class="HintNum" v-if="State.IsShowHint">
-          {{ State.NextClickNum }}
-        </h2>
+    <div class="Middle Box">
+      <div class="Side Left"></div>
+      <div class="Center">
+        <div class="BoardWrap">
+          <div
+            class="BoardRow"
+            v-for="(Row, RowIndex) in NumCellIndexTable"
+            :key="RowIndex"
+          >
+            <GameNumCell
+              v-for="NumCellIndex in Row"
+              :class="{
+                Hide: State.NumCells[NumCellIndex] === null,
+                Show: State.NumCells[NumCellIndex] !== null,
+              }"
+              :key="NumCellIndex"
+              :value="State.NumCells[NumCellIndex]"
+              @click="HandleClickNumCellAt(NumCellIndex)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="Side Right">
+        <div class="HintWrap">
+          <button @click="HintClickAt">
+            <img class="HintBulb" src="../assets/logo.svg" />
+            <p><b>ヒント！</b></p>
+          </button>
+          <h2 class="HintNum" v-if="State.IsShowHint">
+            {{ State.NextClickNum }}
+          </h2>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="Bottom Box">
-    <div class="ResetWrap">
-      <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
+    <div class="Bottom Box">
+      <div class="ResetWrap">
+        <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
+      </div>
     </div>
   </div>
 </template>
@@ -100,6 +104,8 @@ export default {
       //ゲームの状態メッセージテキスト，カラー
       if (State.value.NextClickNum === GameEndNum) {
         TimerStop();
+        GameClear();
+
         return {
           Text: "Success!",
           color: "cornflowerblue",
@@ -141,6 +147,7 @@ export default {
 
     const MissSound = new Audio(require("../assets/MissSound.mp3"));
     const CorrectSound = new Audio(require("../assets/CorrectSound.mp3"));
+    const GameClearSound = new Audio(require("../assets/GameClearSound.mp3"));
     const MissClick = () => {
       MissSound.currentTime = 0;
       MissSound.play();
@@ -149,7 +156,10 @@ export default {
       CorrectSound.currentTime = 0;
       CorrectSound.play();
     };
-
+    const GameClear = () => {
+      GameClearSound.currentTime = 0;
+      GameClearSound.play();
+    };
     const Timer = ref({
       Active: false, // 実行状態
       Start: 0, // startを押した時刻
@@ -199,6 +209,16 @@ export default {
 };
 </script>
 <style scoped>
+.SearchNumContainer {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+@media screen and (max-width: 1000px) {
+  .SearchNumContainer {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
 .Box {
   /*Top Middle Bottom の3つに分けたすべてのBoxに適用*/
   display: flex;
@@ -210,29 +230,27 @@ export default {
 /*上部*/
 .Top {
   border: 0;
-  border-left: 30px;
-  border-right: 30px;
-  border-style: double;
-  border-color: steelblue;
-  height: 150px;
+  height: 120px;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  border-bottom: 4px dotted steelblue;
 }
-
+.Top .Center {
+  text-align: center;
+}
 /*中間部*/
 .Middle {
   vertical-align: top;
-  min-height: 500px;
-  max-height: 65vh;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  min-height: 50vh;
 }
-
-.Center {
-  border: 0px solid black;
+.Middle .Center {
   padding: 0;
 }
 .BoardWrap {
-  border: 0px solid #444;
   display: inline-block;
-  aspect-ratio: 10/12;
-  color: dodgerblue;
+  color: blue;
 }
 .Hide {
   margin: 5px;
@@ -243,28 +261,35 @@ export default {
 }
 /*中間横部分 */
 .Middle .Side {
-  width: 15%;
+  max-width: 300px;
+  width: 10%;
   min-height: 100%;
-  display: inline-block;
-  margin: 10px;
+}
+.Side.Left {
+  margin-left: auto;
+  margin-right: auto;
+}
+.Side.Right {
+  margin-right: auto;
+  margin-left: auto;
 }
 .HintWrap {
   position: relative;
-  display: inline-block;
+  width: 100%;
   padding: 3px;
   border-radius: 10px;
   background-color: darkorange;
 }
 .HintWrap p {
-  font-size: 20px;
-  margin-top: 2px;
+  font-size: 15px;
+  margin: 1px;
   margin-bottom: 2px;
   color: beige;
 }
 .HintWrap button {
   background-color: #6666ff;
   border-radius: 10px;
-  display: inline-block;
+  width: 100%;
   cursor: pointer;
 }
 .HintBulb {
@@ -273,8 +298,9 @@ export default {
   padding: 10px;
 }
 .HintNum {
+  text-align: center;
   font-size: 40px;
-  margin: 15px;
+  margin: 0px;
   color: #fff;
 }
 
@@ -308,5 +334,16 @@ export default {
   margin-top: 3px;
   background: #f56500;
   border-bottom: 2px solid #cc0100;
+}
+
+@media screen and (max-width: 500px) {
+  /*スマホ用のスタイル*/
+  .Box {
+    /*Top Middle Bottom の3つに分けたすべてのBoxに適用*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start;
+  }
 }
 </style>

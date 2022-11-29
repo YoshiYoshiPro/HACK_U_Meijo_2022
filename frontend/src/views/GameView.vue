@@ -1,5 +1,4 @@
 <template>
-  <h1>ゲーム</h1>
   <div class="SearchNum">
     <GameSearchNumVue />
   </div>
