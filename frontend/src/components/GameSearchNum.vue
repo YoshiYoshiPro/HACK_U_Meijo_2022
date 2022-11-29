@@ -22,10 +22,10 @@
             :key="RowIndex"
           >
             <GameNumCell
+              class="Cells"
               v-for="NumCellIndex in Row"
               :class="{
                 Hide: State.NumCells[NumCellIndex] === null,
-                Show: State.NumCells[NumCellIndex] !== null,
               }"
               :key="NumCellIndex"
               :value="State.NumCells[NumCellIndex]"
@@ -252,12 +252,14 @@ export default {
   display: inline-block;
   color: blue;
 }
-.Hide {
+.Cells {
   margin: 5px;
-  visibility: hidden;
+  height: 95px;
+  width: 95px;
+  font-size: 35px;
 }
-.Show {
-  margin: 5px;
+.Hide {
+  visibility: hidden;
 }
 /*中間横部分 */
 .Middle .Side {
@@ -338,12 +340,153 @@ export default {
 
 @media screen and (max-width: 500px) {
   /*スマホ用のスタイル*/
+  .SearchNumContainer {
+    margin: 0;
+    padding: 0;
+  }
+
   .Box {
     /*Top Middle Bottom の3つに分けたすべてのBoxに適用*/
     display: flex;
     justify-content: center;
     align-items: center;
     align-items: flex-start;
+  }
+
+  /*上部*/
+  .Top {
+    border: 0;
+    height: 120px;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    border-bottom: 4px dotted steelblue;
+  }
+  .Top .Center {
+    text-align: center;
+  }
+  /*中間部*/
+  .Middle.Box {
+    display: block;
+    border: 3px solid #000;
+    height: auto;
+    margin-bottom: 0;
+  }
+  .Middle {
+    vertical-align: top;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    min-height: 50vh;
+  }
+  .Middle .Center {
+    padding: 0;
+    margin-bottom: 0;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .BoardWrap {
+    display: inline-block;
+    color: blue;
+  }
+  .Cells {
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    font-size: 25px;
+  }
+  .Hide {
+    visibility: hidden;
+  }
+  /*中間横部分 */
+  .Middle .Side {
+    width: auto;
+    height: auto;
+  }
+
+  .Side.Left {
+    display: none;
+  }
+  .Side.Right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30vw;
+    height: auto;
+  }
+  .HintWrap {
+    position: absolute;
+    bottom: 80px;
+    width: 120px;
+    height: auto;
+    margin-bottom: 100px;
+    padding: 3px;
+    border-radius: 10px;
+    background-color: darkorange;
+  }
+  @media screen and (max-height: 700px) {
+    .HintWrap {
+      margin-bottom: 10px;
+    }
+  }
+  .HintWrap p {
+    font-size: 15px;
+    margin: 1px;
+    margin-bottom: 2px;
+    color: beige;
+  }
+  .HintWrap button {
+    background-color: #6666ff;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .HintBulb {
+    height: 40px;
+    width: auto;
+    padding: 10px;
+  }
+  .HintNum {
+    text-align: center;
+    font-size: 20px;
+    margin: 5px;
+    color: #fff;
+  }
+
+  /*下部*/
+  .Bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    height: 70px;
+    border-bottom: 4px;
+    border-color: #eb6100;
+    border-style: dotted;
+    padding-bottom: 10px;
+  }
+  .ResetWrap {
+    display: inline-block;
+    margin: auto;
+    padding: 5px;
+  }
+  .Reset {
+    width: 100px;
+    height: 60px;
+    border: 0;
+    border-bottom: 5px solid #cc0100;
+    border-radius: 10%;
+    background-color: #eb6100;
+    color: #fff;
+    cursor: pointer;
+  }
+  .Reset:hover {
+    margin-top: 3px;
+    background: #f56500;
+    border-bottom: 2px solid #cc0100;
   }
 }
 </style>
