@@ -1,6 +1,11 @@
 <template>
   <div>
-    <button @click="login" id="loginBtn">ログイン</button>
+    <div id="loginBox">
+      <button @click="loginGoogle" id="loginGoogle">Googleでログイン</button>
+      <button @click="loginAnonymous" id="loginAnonymous">
+        匿名でログイン
+      </button>
+    </div>
     <button @click="logout" id="logoutBtn">ログアウト</button>
   </div>
   <!-- <div id="loggedInBtn">
@@ -51,13 +56,14 @@ export default {
     this.userPhoto = this.$store.getters["index/getUserPhoto"];
   },
   methods: {
-    login() {
-      this.$store.dispatch("login").then(() => {
-        // console.log(this.$route.name)
-        if (this.$route.name === "projects") {
-          // console.log(this.$route.name)
-          this.$router.push("/");
-        }
+    loginGoogle() {
+      this.$store.dispatch("loginGoogle").then(() => {
+        // console.log(this.$route.name);
+      });
+    },
+    loginAnonymous() {
+      this.$store.dispatch("loginAnonymous").then(() => {
+        // console.log(this.$route.name);
       });
     },
     logout: function () {

@@ -1,7 +1,13 @@
 import { createStore } from "vuex";
 // import { firebaseApp } from "../main.js";
 // import * as firebaseApp from "firebase/auth";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInAnonymously,
+} from "firebase/auth";
 
 export default createStore({
   state: {
@@ -35,8 +41,8 @@ export default createStore({
     },
   },
   actions: {
-    login({ commit }) {
-      console.log("login action");
+    loginGoogle({ commit }) {
+      console.log("login googke");
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
       signInWithPopup(auth, provider).then((result) => {
@@ -50,6 +56,27 @@ export default createStore({
         localStorage.uuid = user.uid;
         localStorage.photo = user.photoURL;
         console.log(localStorage);
+      });
+    },
+    loginAnonymous({ commit }) {
+      console.log("login anonymous");
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        // 未ログイン時
+        if (!user) {
+          signInAnonymously(auth).then(() => {
+            onAuthStateChanged(auth, (anonymous) => {
+              console.log(anonymous);
+              commit("setUserUid", anonymous.uid);
+              localStorage.uuid = anonymous.uid;
+            });
+          });
+        }
+        // ログイン時
+        else {
+          // TODO: ログインしているときにやる処理...
+          console.log(user);
+        }
       });
     },
     logout({ commit }) {
