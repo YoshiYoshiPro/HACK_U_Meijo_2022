@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+
     <div class="Middle Box">
       <div class="Side Left"></div>
       <div class="Center">
@@ -46,6 +47,7 @@
         </div>
       </div>
     </div>
+
     <div class="Bottom Box">
       <div class="ResetWrap">
         <button class="Reset" @click="GameReset"><h2>Restart!</h2></button>
@@ -73,19 +75,6 @@ export default {
   },
 
   setup(props) {
-    const shuffle = (array) => {
-      //配列をシャッフルする関数
-      for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    };
-    const ArrayInit = (array) => {
-      for (let i = 0; i < array.length; i++) {
-        array[i] = i + 1;
-      }
-    };
-
     const NumCellIndexTable = _.chunk(
       //セルをテーブル状に表示するための二次元配列
       [...Array(props.Size * props.Size).keys()],
@@ -96,16 +85,79 @@ export default {
       NumCells: Array(props.Size * props.Size).fill("init"), //セルに表示する数字を格納する配列
       NextClickNum: 1, //次にクリックするべき数字
       IsShowHint: false,
+
+      ArrayInit: (array) => {
+        for (let i = 0; i < array.length; i++) {
+          array[i] = i + 1;
+        }
+      },
+      shuffle: (array) => {
+        //配列をシャッフルする関数
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      },
     });
-    ArrayInit(State.value.NumCells);
-    shuffle(State.value.NumCells); //配列をシャッフル
+    State.value.ArrayInit(State.value.NumCells);
+    State.value.shuffle(State.value.NumCells);
+
+    const PlaySound = ref({
+      MissSound: new Audio(require("../assets/MissSound.mp3")),
+      CorrectSound: new Audio(require("../assets/CorrectSound.mp3")),
+      GameClearSound: new Audio(require("../assets/GameClearSound.mp3")),
+
+      MissClick: () => {
+        PlaySound.value.MissSound.currentTime = 0;
+        PlaySound.value.MissSound.play();
+      },
+
+      CorrectClick: () => {
+        PlaySound.value.CorrectSound.currentTime = 0;
+        PlaySound.value.CorrectSound.play();
+      },
+
+      GameClear: () => {
+        PlaySound.value.GameClearSound.currentTime = 0;
+        PlaySound.value.GameClearSound.play();
+      },
+    });
+
+    const Timer = ref({
+      Active: false, // 実行状態
+      Start: 0, // startを押した時刻
+      Time: 0, // setInterval()の格納用
+      Interval: 0, // 計測時間
+      Accum: 0, // 累積時間
+
+      TimerStart: () => {
+        if (Timer.value.Active) return;
+        Timer.value.Active = true;
+        Timer.value.Start = Date.now();
+        Timer.value.Time = setInterval(() => {
+          Timer.value.Interval =
+            Timer.value.Accum + (Date.now() - Timer.value.Start) * 0.001;
+        }, 10); // 10msごとに現在時刻とstartを押した時刻の差を足す
+      },
+
+      TimerStop: () => {
+        Timer.value.Active = false;
+        Timer.value.Accum = Timer.value.Interval;
+        clearInterval(Timer.value.Time);
+      },
+
+      TimerReset: () => {
+        Timer.value.Interval = 0;
+        Timer.value.Accum = 0;
+        Timer.value.Start = Date.now();
+      },
+    });
 
     const Message = computed(() => {
       //ゲームの状態メッセージテキスト，カラー
       if (State.value.NextClickNum === GameEndNum) {
-        TimerStop();
-        GameClear();
-
+        Timer.value.TimerStop();
+        PlaySound.value.GameClear();
         return {
           Text: "Success!",
           color: "cornflowerblue",
@@ -124,74 +176,26 @@ export default {
 
     const HandleClickNumCellAt = (index) => {
       if (State.value.NumCells[index] !== State.value.NextClickNum) {
-        //クリックした数字が正しくない場合
-        MissClick();
-        return;
-      } else if (State.value.NextClickNum === GameEndNum) {
-        //ゲームが終了している場合
+        PlaySound.value.MissClick();
         return;
       }
-      if (!Timer.value.Active) {
-        TimerStart();
-      }
-      CorrectClick();
+      Timer.value.TimerStart();
+      PlaySound.value.CorrectClick();
       State.value.NextClickNum += 1;
       State.value.NumCells[index] = null;
       State.value.IsShowHint = false;
     };
 
     const HintClickAt = () => {
-      State.value.IsShowHint = true;
+      State.value.IsShowHint = !State.value.IsShowHint;
       return;
     };
 
-    const MissSound = new Audio(require("../assets/MissSound.mp3"));
-    const CorrectSound = new Audio(require("../assets/CorrectSound.mp3"));
-    const GameClearSound = new Audio(require("../assets/GameClearSound.mp3"));
-    const MissClick = () => {
-      MissSound.currentTime = 0;
-      MissSound.play();
-    };
-    const CorrectClick = () => {
-      CorrectSound.currentTime = 0;
-      CorrectSound.play();
-    };
-    const GameClear = () => {
-      GameClearSound.currentTime = 0;
-      GameClearSound.play();
-    };
-    const Timer = ref({
-      Active: false, // 実行状態
-      Start: 0, // startを押した時刻
-      Time: 0, // setInterval()の格納用
-      Interval: 0, // 計測時間
-      Accum: 0, // 累積時間
-    });
-    const TimerStart = () => {
-      Timer.value.Active = true;
-      Timer.value.Start = Date.now();
-      Timer.value.Time = setInterval(() => {
-        Timer.value.Interval =
-          Timer.value.Accum + (Date.now() - Timer.value.Start) * 0.001;
-      }, 10); // 10msごとに現在時刻とstartを押した時刻の差を足す
-    };
-
-    const TimerStop = () => {
-      Timer.value.Active = false;
-      Timer.value.Accum = Timer.value.Interval;
-      clearInterval(Timer.value.Time);
-    };
-    const TimerReset = () => {
-      Timer.value.Interval = 0;
-      Timer.value.Accum = 0;
-      Timer.value.Start = Date.now();
-    };
-
     const GameReset = () => {
-      ArrayInit(State.value.NumCells);
-      shuffle(State.value.NumCells);
-      TimerStop();
-      TimerReset();
+      State.value.ArrayInit(State.value.NumCells);
+      State.value.shuffle(State.value.NumCells);
+      Timer.value.TimerStop();
+      Timer.value.TimerReset();
       State.value.NextClickNum = 1;
       State.value.IsShowHint = false;
     };
@@ -201,6 +205,7 @@ export default {
       State,
       Message,
       Timer,
+      PlaySound,
       HandleClickNumCellAt,
       HintClickAt,
       GameReset,
