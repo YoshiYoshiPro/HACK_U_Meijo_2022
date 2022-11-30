@@ -6,7 +6,7 @@
 
 <script>
 // script タグ内を抜粋
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 export default {
   methods: {
