@@ -14,7 +14,8 @@ createApp(App).use(router).use(store).use(vuetify).mount("#app");
 // import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
 // import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-analytics.js";
 
-import firebase from "firebase";
+// import firebase from "firebase";
+import firebase from "firebase/app";
 
 Vue.config.productionTip = false;
 
