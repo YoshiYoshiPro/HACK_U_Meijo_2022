@@ -424,11 +424,6 @@ export default {
     border-radius: 10px;
     background-color: darkorange;
   }
-  @media screen and (max-height: 700px) {
-    .HintWrap {
-      margin-bottom: 10px;
-    }
-  }
   .HintWrap p {
     font-size: 15px;
     margin: 1px;
@@ -440,7 +435,6 @@ export default {
     border-radius: 10px;
     width: 100%;
     cursor: pointer;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -462,7 +456,7 @@ export default {
     position: absolute;
     bottom: 0;
     width: 100vw;
-    height: 70px;
+    height: 100px;
     border-bottom: 4px;
     border-color: #eb6100;
     border-style: dotted;
@@ -471,7 +465,6 @@ export default {
   .ResetWrap {
     display: inline-block;
     margin: auto;
-    padding: 5px;
   }
   .Reset {
     width: 100px;
@@ -487,6 +480,58 @@ export default {
     margin-top: 3px;
     background: #f56500;
     border-bottom: 2px solid #cc0100;
+  }
+
+  @media screen and (max-height: 700px) {
+    .HintWrap {
+      position: absolute;
+      bottom: 100px;
+      width: auto;
+      height: 50px;
+      margin-bottom: 0px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .HintWrap p {
+      display: none;
+    }
+    .HintWrap button {
+      background-color: #6666ff;
+      border-radius: 0;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .HintBulb {
+      height: 40px;
+      width: auto;
+      padding: 10px;
+    }
+    .HintNum {
+      text-align: center;
+      font-size: 20px;
+      margin: 5px;
+      margin-left: 15px;
+      margin-right: 15px;
+
+      color: #fff;
+    }
+
+    .Reset {
+      width: 100px;
+      height: 40px;
+      font-size: 15px;
+      border: 0;
+      border-bottom: 5px solid #cc0100;
+      border-radius: 10%;
+      background-color: #eb6100;
+      color: #fff;
+      cursor: pointer;
+    }
   }
 }
 </style>
