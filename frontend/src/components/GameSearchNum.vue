@@ -367,23 +367,25 @@ export default {
   /*中間部*/
   .Middle.Box {
     display: block;
-    border: 3px solid #000;
     height: auto;
     margin-bottom: 0;
   }
   .Middle {
     vertical-align: top;
-    padding-top: 10px;
+    padding-top: 10vh;
     padding-bottom: 30px;
     min-height: 50vh;
   }
   .Middle .Center {
     padding: 0;
     margin-bottom: 0;
-    border: 1px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    position: absolute;
+    bottom: 230px;
+    width: 100%;
   }
   .BoardWrap {
     display: inline-block;
@@ -416,10 +418,9 @@ export default {
   }
   .HintWrap {
     position: absolute;
-    bottom: 80px;
+    bottom: 120px;
     width: 120px;
     height: auto;
-    margin-bottom: 100px;
     padding: 3px;
     border-radius: 10px;
     background-color: darkorange;
@@ -483,6 +484,14 @@ export default {
   }
 
   @media screen and (max-height: 700px) {
+    .Middle {
+      padding-top: 10px;
+    }
+    .Middle .Center {
+      position: initial;
+      bottom: 0px;
+      width: 100%;
+    }
     .HintWrap {
       position: absolute;
       bottom: 100px;
