@@ -155,6 +155,8 @@ export default {
 
     const Message = computed(() => {
       //ゲームの状態メッセージテキスト，カラー
+      const GameEndNum = props.Size * props.Size + 1;
+
       if (State.value.NextClickNum === GameEndNum) {
         Timer.value.TimerStop();
         PlaySound.value.GameClear();
@@ -171,8 +173,6 @@ export default {
         Text: "Please Start Game !",
       };
     });
-
-    const GameEndNum = props.Size * props.Size + 1;
 
     const HandleClickNumCellAt = (index) => {
       if (State.value.NumCells[index] !== State.value.NextClickNum) {
@@ -287,17 +287,18 @@ export default {
   border-radius: 10px;
   background-color: darkorange;
 }
-.HintWrap p {
-  font-size: 15px;
-  margin: 1px;
-  margin-bottom: 2px;
-  color: beige;
-}
+
 .HintWrap button {
   background-color: #6666ff;
   border-radius: 10px;
   width: 100%;
   cursor: pointer;
+}
+.HintWrap p {
+  font-size: 15px;
+  margin: 1px;
+  margin-bottom: 2px;
+  color: beige;
 }
 .HintBulb {
   height: 60px;
@@ -429,13 +430,10 @@ export default {
     padding: 3px;
     border-radius: 10px;
     background-color: darkorange;
+    display: flex;
+    flex-direction: column;
   }
-  .HintWrap p {
-    font-size: 15px;
-    margin: 1px;
-    margin-bottom: 2px;
-    color: beige;
-  }
+
   .HintWrap button {
     background-color: #6666ff;
     border-radius: 10px;
@@ -444,6 +442,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    order: 2;
+  }
+  .HintWrap p {
+    font-size: 15px;
+    margin: 1px;
+    margin-bottom: 2px;
+    color: beige;
   }
   .HintBulb {
     height: 40px;
@@ -455,6 +460,7 @@ export default {
     font-size: 20px;
     margin: 5px;
     color: #fff;
+    order: 1;
   }
 
   /*下部*/
@@ -507,6 +513,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: row;
     }
     .HintWrap p {
       display: none;
