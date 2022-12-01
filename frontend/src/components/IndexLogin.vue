@@ -2,9 +2,9 @@
   <div>
     <div id="loginBox">
       <v-btn @click="signIn">Googleでログイン</v-btn>
-      <button @click="loginAnonymous">匿名でログイン</button>
+      <v-btn @click="loginAnonymous">匿名でログイン</v-btn>
     </div>
-    <button @click="logout" id="logoutBtn">ログアウト</button>
+    <v-btn @click="logout" id="logoutBtn">ログアウト</v-btn>
   </div>
   <!-- <div class="links">
     <button @click="signIn" class="button--green">sign</button>
@@ -13,13 +13,15 @@
 
 <script>
 // script タグ内を抜粋
-import firebase from "firebase/app";
+// import firebase from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 
 export default {
   methods: {
     signIn: function () {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider);
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth();
+      signInWithPopup(auth, provider);
     },
   },
 };
