@@ -14,30 +14,37 @@
 <script>
 // script タグ内を抜粋
 // import firebase from "firebase/app";
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  // onAuthStateChanged,
-  signInAnonymously,
-  signOut,
-} from "firebase/auth";
+// import {
+//   GoogleAuthProvider,
+//   getAuth,
+//   signInWithPopup,
+//   // onAuthStateChanged,
+//   signInAnonymously,
+//   signOut,
+// } from "firebase/auth";
+import store from "../store";
 
 export default {
+  computed: {},
   methods: {
     signIn: function () {
-      const provider = new GoogleAuthProvider();
-      const auth = getAuth();
-      console.log(auth.currentUser);
-      signInWithPopup(auth, provider).then((result) => {
-        const user = result.user;
-        console.log(user);
-        console.log(getAuth().currentUser);
+      store.dispatch("loginGoogle").then(() => {
+        console.log("google login");
       });
+      // const provider = new GoogleAuthProvider();
+      // const auth = getAuth();
+      // console.log(auth.currentUser);
+      // signInWithPopup(auth, provider).then((result) => {
+      //   const user = result.user;
+      //   console.log(user);
+      //   console.log(getAuth().currentUser);
+      // });
     },
     signInAnonymous: function () {
       console.log("login anonymous");
-      const auth = getAuth();
+      store.dispatch("loginAnonymous").then(() => {
+        console.log("anonymous login");
+      });
       // 下記では、ログアウト後に自動的に匿名ログインするようになっている
       // onAuthStateChanged(auth, (user) => {
       //   // 未ログイン時
@@ -49,22 +56,23 @@ export default {
       // });
 
       // 下記では、ログアウト後の自動匿名ログインは行われない、ボタンでのみログインされる
-      if (auth.currentUser == null) {
-        signInAnonymously(auth).then(() => {
-          console.log(getAuth().currentUser);
-        });
-      }
+      // if (auth.currentUser == null) {
+      //   signInAnonymously(auth).then(() => {
+      //     console.log(getAuth().currentUser);
+      //   });
+      // }
     },
     signOut: function () {
-      const auth = getAuth();
-      signOut(auth)
-        .then(() => {
-          console.log("Sign-out successful.");
-          console.log(getAuth().currentUser);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+      store.dispatch("logout");
+      // const auth = getAuth();
+      // signOut(auth)
+      //   .then(() => {
+      //     console.log("Sign-out successful.");
+      //     console.log(getAuth().currentUser);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err.message);
+      //   });
     },
   },
 };
