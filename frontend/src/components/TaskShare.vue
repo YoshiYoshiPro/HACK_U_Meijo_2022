@@ -151,12 +151,14 @@ export default {
   methods: {
     taskAdd: function () {
       console.log("add");
+
       this.tasks.push({
         name: this.taskName,
         person: this.taskPerson,
         time: this.taskStart,
         detail: this.taskDetail,
       });
+
       if (this.everyday == true) {
         this.everydayTasks.push({
           name: this.taskName,
@@ -164,7 +166,13 @@ export default {
           time: this.taskStart,
           detail: this.taskDetail,
         });
+        this.everyday = false;
       }
+
+      this.taskName = "";
+      this.taskPerson = "";
+      this.taskStart = "";
+      this.taskDetail = "";
     },
     openModal: function () {
       console.log("open");
