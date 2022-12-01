@@ -38,7 +38,7 @@
       <div class="Side Right">
         <div class="HintWrap">
           <button @click="HintClickAt">
-            <img class="HintBulb" src="../assets/logo.svg" />
+            <img class="HintBulb" src="../assets/LightBulb.png" />
             <p><b>ヒント！</b></p>
           </button>
           <h2 class="HintNum" v-if="State.IsShowHint">
