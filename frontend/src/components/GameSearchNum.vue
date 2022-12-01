@@ -38,7 +38,7 @@
       <div class="Side Right">
         <div class="HintWrap">
           <button @click="HintClickAt">
-            <img class="HintBulb" src="../assets/LightBulb.png" />
+            <div class="HintBulb" />
             <p><b>ヒント！</b></p>
           </button>
           <h2 class="HintNum" v-if="State.IsShowHint">
@@ -293,6 +293,7 @@ export default {
 .HintWrap {
   position: relative;
   width: 100%;
+  height: auto;
   padding: 3px;
   border-radius: 10px;
   background-color: darkorange;
@@ -302,6 +303,7 @@ export default {
   background-color: #6666ff;
   border-radius: 10px;
   width: 100%;
+  height: 100%;
   cursor: pointer;
 }
 .HintWrap p {
@@ -311,9 +313,15 @@ export default {
   color: beige;
 }
 .HintBulb {
-  height: 60px;
-  width: auto;
+  height: 40px;
+  min-width: 30px;
+  aspect-ratio: 3/4;
   padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  background-image: url("../assets/LightBulb.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .HintNum {
   text-align: center;
