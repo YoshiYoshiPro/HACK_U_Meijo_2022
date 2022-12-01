@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import GameNumCell from "./GameNumCell.vue";
 import _ from "lodash";
 
@@ -75,6 +75,11 @@ export default {
   },
 
   setup(props) {
+    onMounted(() => {
+      State.value.ArrayInit(State.value.NumCells);
+      State.value.shuffle(State.value.NumCells);
+    });
+
     const NumCellIndexTable = _.chunk(
       //セルをテーブル状に表示するための二次元配列
       [...Array(props.Size * props.Size).keys()],
@@ -98,9 +103,19 @@ export default {
           [array[i], array[j]] = [array[j], array[i]];
         }
       },
+      CorrectClick: (index) => {
+        State.value.NextClickNum += 1;
+        State.value.NumCells[index] = null;
+        State.value.IsShowHint = false;
+      },
+
+      StateInit: () => {
+        State.value.ArrayInit(State.value.NumCells);
+        State.value.shuffle(State.value.NumCells);
+        State.value.NextClickNum = 1;
+        State.value.IsShowHint = false;
+      },
     });
-    State.value.ArrayInit(State.value.NumCells);
-    State.value.shuffle(State.value.NumCells);
 
     const PlaySound = ref({
       MissSound: new Audio(require("../assets/MissSound.mp3")),
@@ -181,9 +196,7 @@ export default {
       }
       Timer.value.TimerStart();
       PlaySound.value.CorrectClick();
-      State.value.NextClickNum += 1;
-      State.value.NumCells[index] = null;
-      State.value.IsShowHint = false;
+      State.value.CorrectClick(index);
     };
 
     const HintClickAt = () => {
@@ -192,12 +205,9 @@ export default {
     };
 
     const GameReset = () => {
-      State.value.ArrayInit(State.value.NumCells);
-      State.value.shuffle(State.value.NumCells);
+      State.value.StateInit();
       Timer.value.TimerStop();
       Timer.value.TimerReset();
-      State.value.NextClickNum = 1;
-      State.value.IsShowHint = false;
     };
 
     return {
