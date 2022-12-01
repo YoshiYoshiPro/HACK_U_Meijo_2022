@@ -7,7 +7,9 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInAnonymously,
+  signOut,
 } from "firebase/auth";
+import router from "../router";
 
 export default createStore({
   state: {
@@ -42,7 +44,7 @@ export default createStore({
   },
   actions: {
     loginGoogle({ commit }) {
-      console.log("login googke");
+      console.log("login google");
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
       signInWithPopup(auth, provider).then((result) => {
@@ -52,10 +54,7 @@ export default createStore({
         commit("setUserName", user.displayName);
         commit("setUserPhoto", user.photoURL);
         console.log(user);
-        localStorage.name = user.displayName;
-        localStorage.uuid = user.uid;
-        localStorage.photo = user.photoURL;
-        console.log(localStorage);
+        router.push("/");
       });
     },
     loginAnonymous({ commit }) {
@@ -68,7 +67,7 @@ export default createStore({
             onAuthStateChanged(auth, (anonymous) => {
               console.log(anonymous);
               commit("setUserUid", anonymous.uid);
-              localStorage.uuid = anonymous.uid;
+              router.push("/");
             });
           });
         }
@@ -81,10 +80,18 @@ export default createStore({
     },
     logout({ commit }) {
       console.log("logout action");
-      // firebaseApp.auth.signOut();
-      commit("setUserUid", "");
-      commit("setUserName", "");
-      commit("setUserPhoto", "");
+      const auth = getAuth();
+      signOut(auth)
+        .then(() => {
+          console.log("Sign-out successful.");
+          commit("setUserUid", "");
+          commit("setUserName", "");
+          commit("setUserPhoto", "");
+          console.log(getAuth().currentUser);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     },
   },
   modules: {},

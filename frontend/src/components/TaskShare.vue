@@ -128,10 +128,13 @@
         </v-row>
       </v-card>
     </v-dialog>
+    <button @click="get">get</button>
   </div>
 </template>
 
 <script>
+import store from "../store";
+
 export default {
   name: "TaskShare",
   data() {
@@ -184,6 +187,10 @@ export default {
     },
     finishTask: function () {
       this.tasks;
+    },
+    get: function () {
+      const uuid = store.getters["getUserUid"];
+      console.log(uuid);
     },
   },
   computed: {},
