@@ -44,10 +44,10 @@
                   task.name
                 }}</v-list-item-title>
                 <v-list-item-subtitle
-                  >担当者：{{ task.person }}</v-list-item-subtitle
+                  >担当者 : {{ task.person }}</v-list-item-subtitle
                 >
                 <v-list-item-subtitle>
-                  詳細 ：{{ task.detail }}</v-list-item-subtitle
+                  詳細 : {{ task.detail }}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>

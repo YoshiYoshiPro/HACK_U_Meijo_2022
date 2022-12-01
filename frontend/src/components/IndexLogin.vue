@@ -6,9 +6,6 @@
     </div>
     <v-btn @click="signOut" id="logoutBtn">ログアウト</v-btn>
   </div>
-  <!-- <div class="links">
-    <button @click="signIn" class="button--green">sign</button>
-  </div> -->
 </template>
 
 <script>
@@ -18,6 +15,7 @@ import {
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
+  // signInWithRedirect,
   // onAuthStateChanged,
   signInAnonymously,
   signOut,
