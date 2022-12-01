@@ -1,6 +1,6 @@
 <template>
   <div class="task">
-    <index-login />
+    <IndexLogin />
   </div>
 </template>
 

@@ -1,7 +1,14 @@
 <template>
-  <div class="links">
-    <a @click="signIn" class="button--green">signIn</a>
+  <div>
+    <div id="loginBox">
+      <v-btn @click="signIn">Googleでログイン</v-btn>
+      <button @click="loginAnonymous">匿名でログイン</button>
+    </div>
+    <button @click="logout" id="logoutBtn">ログアウト</button>
   </div>
+  <!-- <div class="links">
+    <button @click="signIn" class="button--green">sign</button>
+  </div> -->
 </template>
 
 <script>
@@ -12,7 +19,7 @@ export default {
   methods: {
     signIn: function () {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithRedirect(provider);
+      firebase.auth().signInWithPopup(provider);
     },
   },
 };
