@@ -38,7 +38,7 @@
       <div class="Side Right">
         <div class="HintWrap">
           <button @click="HintClickAt">
-            <img class="HintBulb" />
+            <div class="HintBulb" />
             <p><b>ヒント！</b></p>
           </button>
           <h2 class="HintNum" v-if="State.IsShowHint">
@@ -317,7 +317,8 @@ export default {
   min-width: 30px;
   aspect-ratio: 3/4;
   padding: 10px;
-  margin: 2px;
+  margin-left: auto;
+  margin-right: auto;
   background-image: url("../assets/LightBulb.png");
   background-repeat: no-repeat;
   background-size: cover;
