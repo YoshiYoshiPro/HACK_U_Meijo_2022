@@ -1,74 +1,133 @@
 <template>
-  <h1>今日のタスク</h1>
-  <div class="taskList">
-    <section>
-      <div v-for="(task, i) in tasks" :key="i">
-        <input
-          :id="'task' + i"
-          type="checkbox"
-          :value="task.name"
-          v-model="finishTasks"
-        />
-        <label :for="task"
-          >{{ task.name }}-{{ task.detail }}:{{ task.person }}:{{
-            task.time
-          }}</label
-        >
-      </div>
-    </section>
-  </div>
-  <button v-on:click="openModal()" id="addBtn">追加</button>
-  <div id="overlay" v-show="showContent">
-    <div id="content">
-      <h2>追加タスク</h2>
-      <div>
-        <div class="addElement">
-          <p class="left">タスク名</p>
-          <input class="left addTask" type="text" v-model="taskName" />
-        </div>
-        <div class="addElement">
-          <p class="left">担当</p>
-          <input class="left addTask" type="text" v-model="taskPerson" />
-        </div>
-        <div class="addElement">
-          <p class="left">開始時間</p>
-          <input class="left addTask" type="text" v-model="taskStart" />
-        </div>
-        <div class="addElement">
-          <p class="left">タスク詳細</p>
-          <textarea
-            class="left addTask"
-            type="text"
-            v-model="taskDetail"
-          ></textarea>
-        </div>
-        <div class="addElement">
-          <label>毎日?</label>
-          <input :id="everydayTask" type="checkbox" v-model="everyday" />
+  <v-row justify="center" align="center">
+    <v-col cols="12">
+      <div class="mx-10 ma-1 pa-3 grey lighten-4">
+        <span class="text-h5"> 今日のタスク </span>
+        <div v-for="(task, i) in tasks" :key="i" class="mt-1">
+          <v-card elevation="2" shaped>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6"
+                  ><input
+                    type="checkbox"
+                    :value="task.name"
+                    v-model="finishTasks"
+                    class="mr-3"
+                  />{{ task.name }}</v-list-item-title
+                >
+                <v-list-item-subtitle
+                  >担当者：{{ task.person }}</v-list-item-subtitle
+                >
+                <v-list-item-subtitle>
+                  詳細 ：{{ task.detail }}</v-list-item-subtitle
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
         </div>
       </div>
-      <div>
-        <input type="button" v-on:click="taskAdd()" id="addBtn" value="追加" />
-        <input
-          type="button"
-          v-on:click="closeModal()"
-          id="closeBtn"
-          value="close"
-        />
+    </v-col>
+    <div class="text-center">
+      <v-btn color="primary" dark class="mr-4" @click="openModal">
+        タスクの追加
+      </v-btn>
+    </div>
+
+    <v-col cols="12">
+      <div class="mx-10 ma-1 pa-3 grey lighten-4">
+        <span class="text-h5"> 毎日のタスク </span>
+        <div v-for="(task, i) in everydayTasks" :key="i" class="mt-1">
+          <v-card elevation="2" shaped>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">{{
+                  task.name
+                }}</v-list-item-title>
+                <v-list-item-subtitle
+                  >担当者：{{ task.person }}</v-list-item-subtitle
+                >
+                <v-list-item-subtitle>
+                  詳細 ：{{ task.detail }}</v-list-item-subtitle
+                >
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </div>
       </div>
-    </div>
-  </div>
-  <div>
-    <p>毎日タスク</p>
-    <div v-for="(task, i) in everydayTasks" :key="i">
-      <p>・{{ task }}</p>
-    </div>
-  </div>
-  <div>
-    <p>完了タスク</p>
-    <div v-for="(task, i) in finishTasks" :key="i">
-      <p>・{{ task }}</p>
-    </div>
+    </v-col>
+
+    <v-col cols="12">
+      <div class="mx-10 ma-1 pa-3 grey lighten-4">
+        <span class="text-h5"> 終了したタスク </span>
+        <div v-for="(task, i) in finishTasks" :key="i" class="mt-1">
+          <v-card elevation="2" shaped>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">{{
+                  task
+                }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </div>
+      </div>
+    </v-col>
+  </v-row>
+
+  <div class="text-center">
+    <v-dialog v-model="dialog" width="500" class="purple darken-2">
+      <v-card>
+        <v-card-title class="headline grey lighten-2">
+          タスクの追加
+        </v-card-title>
+        <v-row justify="center">
+          <v-col cols="12">
+            <v-text-field
+              v-model="taskName"
+              label="タスク名"
+              class="mx-2"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="taskPerson"
+              label="担当"
+              class="mx-2"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="taskStart"
+              label="開始時間"
+              class="mx-2"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="taskDetail"
+              label="詳細"
+              class="mx-2"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-checkbox
+              label="毎日？"
+              v-model="everyday"
+              class="mx-2"
+            ></v-checkbox>
+          </v-col>
+          <v-col cols="12">
+            <v-btn :disabled="taskName === ''" color="primary" @click="taskAdd">
+              追加
+            </v-btn>
+            <v-btn color="primary" class="mx-auto" @click="closeModal">
+              閉じる
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -79,9 +138,14 @@ export default {
     return {
       tasks: [], //今日のタスク
       finishTasks: [], //今日のタスクで完了したもの
-      showContent: false,
       everyday: false,
       everydayTasks: [], //毎日のタスクに登録
+      valid: false,
+      dialog: false,
+      taskName: "",
+      taskPerson: "",
+      taskStart: "",
+      taskDetail: "",
     };
   },
   methods: {
@@ -94,16 +158,21 @@ export default {
         detail: this.taskDetail,
       });
       if (this.everyday == true) {
-        this.everydayTasks.push(this.taskName);
+        this.everydayTasks.push({
+          name: this.taskName,
+          person: this.taskPerson,
+          time: this.taskStart,
+          detail: this.taskDetail,
+        });
       }
     },
     openModal: function () {
       console.log("open");
-      this.showContent = true;
+      this.dialog = true;
     },
     closeModal: function () {
       console.log("close");
-      this.showContent = false;
+      this.dialog = false;
     },
     finishTask: function () {
       this.tasks;
@@ -112,70 +181,3 @@ export default {
   computed: {},
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#overlay {
-  /*要素を重ねた時の順番*/
-  z-index: 1;
-
-  /*画面全体を覆う設定*/
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  /*画面の中央に要素を表示させる設定*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#content {
-  z-index: 2;
-  width: 40%;
-  padding: 1em;
-  background: #fff;
-  border-radius: 20px;
-  font-size: large;
-}
-.left {
-  text-align: left;
-  margin: 0px;
-}
-.addTask {
-  width: 100%;
-}
-.addElement {
-  margin: 20px;
-}
-#addBtn {
-  width: 100px;
-  height: 50px;
-  border-radius: 20px;
-  background-color: aqua;
-  margin: 10px;
-}
-#closeBtn {
-  width: 100px;
-  height: 50px;
-  border-radius: 20px;
-  background-color: aqua;
-  margin: 10px;
-}
-</style>
