@@ -13,13 +13,13 @@
 
 <script>
 // script タグ内を抜粋
-import firebase from "firebase/app";
+import firebase from "firebase/auth";
 
 export default {
   methods: {
     signIn: function () {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider);
+      firebase.auth().signInWithRedirect(provider);
     },
   },
 };

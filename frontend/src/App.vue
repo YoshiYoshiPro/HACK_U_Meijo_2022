@@ -21,7 +21,7 @@
         <v-list-item
           lines="two"
           prepend-avatar="https://randomuser.me/api/portraits/men/81.jpg"
-          title="山田太郎"
+          title="名城太郎"
           subtitle="hogehoge@gmail.com"
         ></v-list-item>
       </template>
