@@ -128,7 +128,7 @@
         </v-row>
       </v-card>
     </v-dialog>
-    <button @click="get">get</button>
+    <!-- <button @click="get">get</button> -->
   </div>
 </template>
 
