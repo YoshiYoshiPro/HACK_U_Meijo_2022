@@ -60,6 +60,13 @@
           flat
           to="/game"
         ></v-list-item>
+        <v-list-item
+          prepend-icon="mdi-gamepad-variant"
+          title="ログイン"
+          value="login"
+          flat
+          to="/login"
+        ></v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-main>
