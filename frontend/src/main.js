@@ -4,11 +4,19 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
-import * as firebase from "firebase/app";
-import { firebaseConfig } from "./firebase-config.js";
+import { initializeApp } from "firebase/app";
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-export default firebaseApp;
+const firebaseConfig = {
+  apiKey: "AIzaSyC2nu7GuWecfS2YVlTO1fa4QgDKG-NjDmk",
+  authDomain: "otasuke-f5bf7.firebaseapp.com",
+  projectId: "otasuke-f5bf7",
+  storageBucket: "otasuke-f5bf7.appspot.com",
+  messagingSenderId: "92203841168",
+  appId: "1:92203841168:web:773cf9ccb8ce2cc2b74a15",
+  measurementId: "G-R2Q36QYYPK",
+};
+const app = initializeApp(firebaseConfig);
+export default app;
 
 loadFonts();
 
