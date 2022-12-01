@@ -28,9 +28,8 @@ export default {
 
 <style scoped>
 .NumCellButton {
-  height: 95px;
-  width: 95px;
-  margin: 5px;
+  height: 100%;
+  width: 100%;
   border: none;
   outline: none;
   background-color: transparent;
@@ -39,9 +38,9 @@ export default {
 }
 
 .NumCell {
-  height: 75px;
-  width: 75px;
-  margin: 5px;
+  height: 80%;
+  width: 80%;
+  margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,6 +49,5 @@ export default {
   border-color: orangered;
   border-radius: 15%;
   background-color: beige;
-  font-size: 35px;
 }
 </style>
