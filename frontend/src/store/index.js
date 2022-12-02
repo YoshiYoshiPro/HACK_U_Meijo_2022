@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 // import { firebaseApp } from "../main.js";
-// import * as firebaseApp from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 import {
   getAuth,
   signInWithPopup,
@@ -60,6 +61,12 @@ export default createStore({
         localStorage.uuid = user.uid;
         localStorage.photo = user.photoURL;
         router.push("/");
+        const docRef = doc(db, "users", user.email);
+        setDoc(docRef, {
+          name: user.displayName,
+          uuid: user.uid,
+          photo: user.photoURL,
+        });
       });
     },
 
