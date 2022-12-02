@@ -66,7 +66,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // firebase.onAuth();
-  let currentUserStatus = store.getters["isSignedIn"];
+  let currentUserStatus = store.getters["isLoggedIn"];
   let requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   if (!requiresAuth) {
     next();

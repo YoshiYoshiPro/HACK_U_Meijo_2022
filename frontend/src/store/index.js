@@ -25,7 +25,7 @@ export default createStore({
       return state.userName;
     },
     isLoggedIn(state) {
-      return !!state.userName;
+      return !!state.userUid;
     },
     getUserPhoto(state) {
       return state.userPhoto;
