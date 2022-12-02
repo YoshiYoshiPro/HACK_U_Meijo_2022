@@ -16,6 +16,7 @@ export default createStore({
     userUid: "",
     userName: "",
     userPhoto: "",
+    userEmail: "",
   },
   getters: {
     getUserUid(state) {
@@ -30,6 +31,9 @@ export default createStore({
     getUserPhoto(state) {
       return state.userPhoto;
     },
+    getUserEmail(state) {
+      return state.userEmail;
+    },
   },
   mutations: {
     setUserUid(state, userUid) {
@@ -40,6 +44,9 @@ export default createStore({
     },
     setUserPhoto(state, userPhoto) {
       state.userPhoto = userPhoto;
+    },
+    setUserEmail(state, userEmail) {
+      state.userEmail = userEmail;
     },
   },
   actions: {
@@ -55,10 +62,12 @@ export default createStore({
         commit("setUserUid", user.uid);
         commit("setUserName", user.displayName);
         commit("setUserPhoto", user.photoURL);
+        commit("setUserEmail", user.email);
         console.log(user);
         localStorage.name = user.displayName;
         localStorage.uuid = user.uid;
         localStorage.photo = user.photoURL;
+        localStorage.email = user.email;
         router.push("/");
       });
     },
@@ -77,9 +86,10 @@ export default createStore({
               commit("setUserUid", anonymous.uid);
               commit("setUserName", "Anonymous");
               commit("setUserPhoto", "");
-              localStorage.name = "Anonymous";
+              localStorage.name = "ゲスト";
               localStorage.uuid = anonymous.uid;
               localStorage.photo = "";
+              localStorage.email = "";
               router.push("/");
             });
           });
@@ -103,10 +113,12 @@ export default createStore({
           commit("setUserUid", "");
           commit("setUserName", "");
           commit("setUserPhoto", "");
+          commit("setUserEmail", "");
           console.log(getAuth().currentUser);
           localStorage.name = "";
           localStorage.uuid = "";
           localStorage.photo = "";
+          localStorage.email = "";
         })
         .catch((err) => {
           console.log(err.message);
