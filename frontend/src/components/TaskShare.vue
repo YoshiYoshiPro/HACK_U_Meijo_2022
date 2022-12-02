@@ -28,7 +28,7 @@
       </div>
     </v-col>
     <div class="text-center">
-      <v-btn color="primary" dark class="mr-4" @click="openModal">
+      <v-btn color="green" dark class="mr-4" @click="openModal">
         タスクの追加
       </v-btn>
     </div>

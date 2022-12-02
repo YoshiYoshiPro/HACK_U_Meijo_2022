@@ -47,6 +47,7 @@
           prepend-icon="mdi-note"
           title="ノート"
           value="note"
+          to="/note"
         ></v-list-item>
         <v-list-item
           prepend-icon="mdi-calendar"
