@@ -1,5 +1,26 @@
 <template>
   <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="400"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h3 class="mb-3">現代版おばあちゃんの知恵袋SNS</h3>
+
+        <h1 class="display-2 font-weight-bold mb-3">OTASUKE</h1>
+
+        <p class="subheading font-weight-regular mb-8">
+          家事・育児支援WEBアプリケーション
+          <br />
+        </p>
+      </v-col>
+    </v-row>
     <div id="loginBox">
       <v-row justify="center">
         <v-btn
