@@ -56,6 +56,9 @@ export default createStore({
         commit("setUserName", user.displayName);
         commit("setUserPhoto", user.photoURL);
         console.log(user);
+        localStorage.name = user.displayName;
+        localStorage.uuid = user.uid;
+        localStorage.photo = user.photoURL;
         router.push("/");
       });
     },
@@ -72,8 +75,11 @@ export default createStore({
             onAuthStateChanged(auth, (anonymous) => {
               console.log(anonymous);
               commit("setUserUid", anonymous.uid);
-              commit("setUserName", "");
+              commit("setUserName", "Anonymous");
               commit("setUserPhoto", "");
+              localStorage.name = "Anonymous";
+              localStorage.uuid = anonymous.uid;
+              localStorage.photo = "";
               router.push("/");
             });
           });
@@ -98,6 +104,9 @@ export default createStore({
           commit("setUserName", "");
           commit("setUserPhoto", "");
           console.log(getAuth().currentUser);
+          localStorage.name = "";
+          localStorage.uuid = "";
+          localStorage.photo = "";
         })
         .catch((err) => {
           console.log(err.message);
