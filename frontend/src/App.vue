@@ -18,14 +18,28 @@
       </v-app-bar>
 
       <v-navigation-drawer app v-model="drawer" clipped>
+        <!-- <span v-if="userPhoto === ''">
+          <img :src="this.guestPhoto" />
+        </span> -->
         <template v-slot:prepend>
           <v-list-item
-            lines="two"
-            prepend-avatar="https://randomuser.me/api/portraits/men/81.jpg"
-            title="山田太郎"
-            subtitle="hogehoge@gmail.com"
+            ines="two"
+            :prepend-avatar="userPhoto"
+            :title="userName"
+            :subtitle="userEmail"
           ></v-list-item>
+          <v-btn @click="signOut" class="ml-10" color="orange"
+            >ログアウト</v-btn
+          >
         </template>
+
+        <!-- <v-list-item-content>
+              <v-list-item-avatar
+                ><v-img :src="userPhoto"></v-img
+              ></v-list-item-avatar>
+              <v-list-item-title>{{ userName }}</v-list-item-title>
+              <v-list-item-subtitle>{{ userEmail }}</v-list-item-subtitle>
+            </v-list-item-content> -->
 
         <v-divider></v-divider>
 
@@ -77,8 +91,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters, storeKey } from "vuex";
 import IndexLogin from "./components/IndexLogin.vue";
+import store from "./store";
 
 export default {
   name: "App",
@@ -93,13 +108,34 @@ export default {
       ],
       tags: ["家事", "育児"],
       drawer: null,
+      guestPhoto: "./assets/human.png",
     };
   },
   computed: {
-    ...mapGetters({
-      isLoggedIn: "isLoggedIn",
-    }),
+    userName: function () {
+      return store.getters["getUserName"];
+    },
+    userEmail: function () {
+      return store.getters["getUserEmail"];
+    },
+    isLoggedIn: function () {
+      return store.getters["isLoggedIn"];
+    },
+    userPhoto: function () {
+      console.log(store.getters["getUserPhoto"]);
+      return store.getters["getUserPhoto"];
+    },
+  },
+  methods: {
+    signOut: function () {
+      store.dispatch("logout");
+    },
   },
   components: { IndexLogin },
+  // created: {
+  //   function() {
+  //     this.userName = store.getters["getUserName"];
+  //   },
+  // },
 };
 </script>
