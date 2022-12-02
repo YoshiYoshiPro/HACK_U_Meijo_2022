@@ -1,11 +1,36 @@
 <template>
-  <div>
+  <v-container>
     <div id="loginBox">
-      <v-btn @click="signIn">Googleでログイン</v-btn>
-      <v-btn @click="signInAnonymous">匿名でログイン</v-btn>
+      <v-row justify="center">
+        <v-btn
+          height="40"
+          width="200"
+          prepend-icon="mdi-google"
+          style="text-transform: none"
+          elevation="4"
+          @click="signIn()"
+        >
+          Googleでログイン
+        </v-btn>
+      </v-row>
+      <br />
+      <br />
+      <v-row justify="center">
+        <v-btn
+          height="40"
+          width="200"
+          prepend-icon="mdi-incognito"
+          color="orange"
+          elevation="4"
+          @click="signInAnonymous"
+        >
+          匿名でログイン
+        </v-btn>
+      </v-row>
     </div>
-    <v-btn @click="signOut" id="logoutBtn">ログアウト</v-btn>
-  </div>
+
+    <!-- <v-btn @click="signOut" id="logoutBtn">ログアウト</v-btn> -->
+  </v-container>
   <!-- <div class="links">
     <button @click="signIn" class="button--green">sign</button>
   </div> -->
