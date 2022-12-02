@@ -15,9 +15,6 @@
                     class="mr-3"
                   />{{ task.name }}</v-list-item-title
                 >
-                <v-list-item-subtitle
-                  >担当者：{{ task.person }}</v-list-item-subtitle
-                >
                 <v-list-item-subtitle>
                   詳細 ：{{ task.detail }}</v-list-item-subtitle
                 >
@@ -43,9 +40,6 @@
                 <v-list-item-title class="text-h6">{{
                   task.name
                 }}</v-list-item-title>
-                <v-list-item-subtitle
-                  >担当者：{{ task.person }}</v-list-item-subtitle
-                >
                 <v-list-item-subtitle>
                   詳細 ：{{ task.detail }}</v-list-item-subtitle
                 >
@@ -91,20 +85,6 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              v-model="taskPerson"
-              label="担当"
-              class="mx-2"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="taskStart"
-              label="開始時間"
-              class="mx-2"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
               v-model="taskDetail"
               label="詳細"
               class="mx-2"
@@ -134,6 +114,8 @@
 
 <script>
 import store from "../store";
+// import { addDoc, doc, collection } from "firebase/firestore";
+// import { db } from "../firebase";
 
 export default {
   name: "TaskShare",
@@ -146,8 +128,6 @@ export default {
       valid: false,
       dialog: false,
       taskName: "",
-      taskPerson: "",
-      taskStart: "",
       taskDetail: "",
     };
   },
@@ -157,24 +137,30 @@ export default {
 
       this.tasks.push({
         name: this.taskName,
-        person: this.taskPerson,
-        time: this.taskStart,
         detail: this.taskDetail,
       });
+      // const email = store.getters["getUserEmail"];
+      // const docRef = doc(db, "users", email);
+      // const colRef = collection(docRef, "tasks");
+      // addDoc(colRef, {
+      //   title: this.taskName,
+      //   detail: this.taskDetail,
+      //   isEveryday: false,
+      //   isFinished: false,
+      // });
 
       if (this.everyday == true) {
         this.everydayTasks.push({
           name: this.taskName,
-          person: this.taskPerson,
-          time: this.taskStart,
           detail: this.taskDetail,
         });
         this.everyday = false;
+        // addDoc(colRef, {
+        //   isEveryday: true,
+        // });
       }
 
       this.taskName = "";
-      this.taskPerson = "";
-      this.taskStart = "";
       this.taskDetail = "";
     },
     openModal: function () {
@@ -187,6 +173,12 @@ export default {
     },
     finishTask: function () {
       this.tasks;
+      // const email = store.getters["getUserEmail"];
+      // const docRef = doc(db, "users", email);
+      // const colRef = doc(docRef, "tasks");
+      // addDoc(colRef, {
+      //   isFinished: true,
+      // });
     },
     get: function () {
       const uuid = store.getters["getUserUid"];
