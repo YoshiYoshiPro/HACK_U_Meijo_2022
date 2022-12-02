@@ -1,7 +1,14 @@
 <template>
   <v-container>
     <v-row justify="start" align="center">
-      <v-col cols="12" sm="4" v-for="(note, i) in notes" :key="i" class="mt-1">
+      <v-col
+        cols="12"
+        sm="4"
+        v-for="(note, i) in notes"
+        :key="i"
+        class="mt-1"
+        @click.stop="note.dialog = true"
+      >
         <v-card elevation="2" shaped>
           <v-list-item>
             <v-list-item-content>
@@ -13,9 +20,19 @@
                 投稿者：{{ note.person }}</v-list-item-subtitle
               >
               <v-list-item-subtitle> {{ note.date }}</v-list-item-subtitle>
+              <!-- <v-card-text>{{ shortContent }}</v-card-text> -->
             </v-list-item-content>
           </v-list-item>
         </v-card>
+        <v-dialog v-model="note.dialog" scrollable width="600px">
+          <v-card>
+            <v-card-title>{{ note.title }}</v-card-title>
+            <v-divider></v-divider>
+            <v-card-text
+              ><div class="u-pre-wrap" v-text="note.content"></div
+            ></v-card-text>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
 
@@ -91,8 +108,20 @@ export default {
   props: {
     notes: Array,
   },
-  data() {},
+  data() {
+    return {
+      // dialog: [],
+    };
+  },
+  computed: {
+    // function() {
+    //   for (let i = 0; i < this.notes.length; i++) {
+    //     this.dialog.push(false);
+    //   }
+    // },
+  },
   methods: {},
+  // mounted: {},
 };
 // const buttonOpen = document.getElementById("modal-open");
 // const modal = document.getElementById("div-modal");
@@ -118,3 +147,8 @@ export default {
 //   }
 // }
 </script>
+<style>
+.u-pre-wrap {
+  white-space: pre-wrap;
+}
+</style>

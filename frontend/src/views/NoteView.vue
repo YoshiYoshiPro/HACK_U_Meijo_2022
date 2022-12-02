@@ -55,13 +55,19 @@
           </v-col>
           <v-col cols="10">
             <v-textarea
-              v-model="noteDetail"
+              v-model="noteContent"
               label="内容"
               class="mx-2"
             ></v-textarea>
           </v-col>
           <v-col cols="10">
-            <v-btn :disabled="noteTitle === ''" color="primary" @click="addBtn">
+            <v-btn
+              :disabled="
+                noteGenre === '' || noteTitle === '' || notePerson === ''
+              "
+              color="primary"
+              @click="addBtn"
+            >
               追加
             </v-btn>
             <v-btn color="primary" class="mx-auto" @click="closeModal">
@@ -130,6 +136,7 @@ export default {
           title: "ノートタイトル",
           person: "投稿者",
           date: "??/??/??",
+          dialog: false,
         },
       ],
       genres: [
@@ -148,8 +155,7 @@ export default {
       noteGenre: "",
       noteTitle: "",
       notePerson: "",
-      noteDetail: "",
-      noteDate: "",
+      noteContent: "",
     };
   },
   components: {
@@ -162,6 +168,14 @@ export default {
       }
       return this.notes.filter((note) => note.genre === this.selectedGenre);
     },
+    // shortContent: function () {
+    //   let maxlength = 100;
+    //   if (this.notes.content.length <= maxlength) {
+    //     return this.content;
+    //   } else {
+    //     return this.content.substr(0, maxlength - 10) + "...(続きを読む）";
+    //   }
+    // },
   },
   methods: {
     addBtn: function () {
@@ -169,13 +183,15 @@ export default {
         genre: this.noteGenre,
         title: this.noteTitle,
         person: this.notePerson,
-        detail: this.noteDetail,
+        content: this.noteContent,
+        shortcontent: this.shortcontent,
         date: new Date().toLocaleDateString(),
+        dialog: false,
       });
       this.noteGenre = "";
       this.noteTitle = "";
       this.notePerson = "";
-      (this.noteDetail = ""), (this.noteDate = "");
+      this.noteContent = "";
     },
     openModal: function () {
       this.dialog = true;
