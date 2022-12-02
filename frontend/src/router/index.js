@@ -66,9 +66,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // firebase.onAuth();
+  store.commit("setUserUid", localStorage.uuid);
+  store.commit("setUserName", localStorage.name);
+  store.commit("setUserPhoto", localStorage.photo);
+
   let currentUserStatus = store.getters["isLoggedIn"];
   let requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  if (!requiresAuth) {
+  console.log(currentUserStatus);
+  console.log(store.getters["getUserUid"]);
+  if (currentUserStatus != "") {
+    next();
+  } else if (!requiresAuth) {
     next();
   } else if (requiresAuth && !currentUserStatus) {
     next("/login");
