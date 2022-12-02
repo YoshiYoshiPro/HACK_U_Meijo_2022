@@ -3,6 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import TaskView from "@/views/TaskView.vue";
 import GameView from "@/views/GameView.vue";
 import LoginView from "@/views/LoginView.vue";
+import NoteView from "@/views/NoteView.vue";
 
 // import firebase from "firebase/app";
 import store from "../store";
@@ -23,12 +24,8 @@ const routes = [
   {
     path: "/note",
     name: "note",
-
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/NoteView.vue"),
+    component: NoteView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/game",
