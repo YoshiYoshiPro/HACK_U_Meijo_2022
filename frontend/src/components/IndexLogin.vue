@@ -1,11 +1,57 @@
 <template>
-  <div>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="400"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h3 class="mb-3">現代版おばあちゃんの知恵袋SNS</h3>
+
+        <h1 class="display-2 font-weight-bold mb-3">OTASUKE</h1>
+
+        <p class="subheading font-weight-regular mb-8">
+          家事・育児支援WEBアプリケーション
+          <br />
+        </p>
+      </v-col>
+    </v-row>
     <div id="loginBox">
-      <v-btn @click="signIn">Googleでログイン</v-btn>
-      <v-btn @click="signInAnonymous">匿名でログイン</v-btn>
+      <v-row justify="center">
+        <v-btn
+          height="40"
+          width="200"
+          prepend-icon="mdi-google"
+          style="text-transform: none"
+          elevation="4"
+          @click="signIn()"
+        >
+          Googleでログイン
+        </v-btn>
+      </v-row>
+      <br />
+      <br />
+      <v-row justify="center">
+        <v-btn
+          height="40"
+          width="200"
+          prepend-icon="mdi-incognito"
+          color="orange"
+          elevation="4"
+          @click="signInAnonymous"
+        >
+          匿名でログイン
+        </v-btn>
+      </v-row>
     </div>
-    <v-btn @click="signOut" id="logoutBtn">ログアウト</v-btn>
-  </div>
+
+    <!-- <v-btn @click="signOut" id="logoutBtn">ログアウト</v-btn> -->
+  </v-container>
   <!-- <div class="links">
     <button @click="signIn" class="button--green">sign</button>
   </div> -->

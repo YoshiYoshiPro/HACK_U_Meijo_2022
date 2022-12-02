@@ -25,7 +25,7 @@ export default createStore({
       return state.userName;
     },
     isLoggedIn(state) {
-      return !!state.userName;
+      return !!state.userUid;
     },
     getUserPhoto(state) {
       return state.userPhoto;
@@ -43,10 +43,12 @@ export default createStore({
     },
   },
   actions: {
+    // Google
     loginGoogle({ commit }) {
       console.log("login google");
       const provider = new GoogleAuthProvider();
       const auth = getAuth();
+      // Google認証
       signInWithPopup(auth, provider).then((result) => {
         const user = result.user;
         console.log("success : " + user.uid + " : " + user.displayName);
@@ -57,16 +59,21 @@ export default createStore({
         router.push("/");
       });
     },
+
+    // 匿名認証
     loginAnonymous({ commit }) {
       console.log("login anonymous");
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         // 未ログイン時
         if (!user) {
+          // 匿名認証
           signInAnonymously(auth).then(() => {
             onAuthStateChanged(auth, (anonymous) => {
               console.log(anonymous);
               commit("setUserUid", anonymous.uid);
+              commit("setUserName", "");
+              commit("setUserPhoto", "");
               router.push("/");
             });
           });
@@ -78,9 +85,12 @@ export default createStore({
         }
       });
     },
+
+    // ログアウト
     logout({ commit }) {
       console.log("logout action");
       const auth = getAuth();
+      // ログアウト実行
       signOut(auth)
         .then(() => {
           console.log("Sign-out successful.");
