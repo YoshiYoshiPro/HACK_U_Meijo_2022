@@ -47,13 +47,6 @@
             ></v-text-field>
           </v-col>
           <v-col cols="10">
-            <v-text-field
-              v-model="notePerson"
-              label="投稿者"
-              class="mx-2"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="10">
             <v-textarea
               v-model="noteContent"
               label="内容"
@@ -83,6 +76,7 @@
 <script>
 // @ is an alias to /src
 import NotePage from "@/components/NoteList.vue";
+import store from "../store";
 
 export default {
   name: "NoteView",
@@ -154,7 +148,6 @@ export default {
       dialog: false,
       noteGenre: "",
       noteTitle: "",
-      notePerson: "",
       noteContent: "",
     };
   },
@@ -182,7 +175,7 @@ export default {
       this.notes.push({
         genre: this.noteGenre,
         title: this.noteTitle,
-        person: this.notePerson,
+        person: store.getters["getUserName"],
         content: this.noteContent,
         shortcontent: this.shortcontent,
         date: new Date().toLocaleDateString(),
@@ -190,7 +183,6 @@ export default {
       });
       this.noteGenre = "";
       this.noteTitle = "";
-      this.notePerson = "";
       this.noteContent = "";
     },
     openModal: function () {
