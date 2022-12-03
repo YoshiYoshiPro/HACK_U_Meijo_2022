@@ -1,4 +1,47 @@
 <template>
+  <v-row justify="center" align="center" class="mt-6">
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/1.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/2.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/3.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/4.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/5.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/6.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/7.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+    <v-col cols="12">
+      <video controls ref="previewVideo" class="video">
+        <source :src="require('../assets/8.mp4')" type="video/mp4" />
+      </video>
+    </v-col>
+  </v-row>
+
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
@@ -80,6 +123,7 @@ export default {
   name: "HelloWorld",
 
   data: () => ({
+    src: require("../assets/game.mp4"),
     ecosystem: [
       {
         text: "vuetify-loader",
@@ -127,5 +171,32 @@ export default {
       },
     ],
   }),
+  //   created:{
+  //     function(){
+  //       handleFileSelect(event) {
+  //   // ファイルのチェック
+  //   const file = event.target.files[0]
+  //   if (!file || !file.type.match('video/*')) return
+
+  //   // ファイルの読み込み
+  //   const reader = new FileReader()
+  //   reader.onload = (evt) => {
+  //     this.src = evt.target.result
+  //     this.createThumbnails(this.src)
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
+  //     }
+  //   }
 };
 </script>
+<style>
+.video {
+  padding: 0;
+  margin: 0;
+  width: 400px;
+  height: 400px;
+  align-content: center;
+  margin: auto;
+}
+</style>
