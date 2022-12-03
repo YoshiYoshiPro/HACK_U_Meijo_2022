@@ -26,7 +26,6 @@
             ines="two"
             :prepend-avatar="userPhoto"
             :title="userName"
-            :subtitle="userEmail"
           ></v-list-item>
           <v-btn @click="signOut" class="ml-10" color="orange"
             >ログアウト</v-btn
