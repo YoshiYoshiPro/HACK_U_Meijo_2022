@@ -114,7 +114,7 @@
 
 <script>
 import store from "../store";
-// import { addDoc, doc, collection } from "firebase/firestore";
+// import { addDoc, doc, collection, updateDoc } from "firebase/firestore";
 // import { db } from "../firebase";
 
 export default {
@@ -142,12 +142,6 @@ export default {
       // const email = store.getters["getUserEmail"];
       // const docRef = doc(db, "users", email);
       // const colRef = collection(docRef, "tasks");
-      // addDoc(colRef, {
-      //   title: this.taskName,
-      //   detail: this.taskDetail,
-      //   isEveryday: false,
-      //   isFinished: false,
-      // });
 
       if (this.everyday == true) {
         this.everydayTasks.push({
@@ -155,8 +149,18 @@ export default {
           detail: this.taskDetail,
         });
         this.everyday = false;
-        // addDoc(colRef, {
+        //   addDoc(colRef, {
+        //   title: this.taskName,
+        //   detail: this.taskDetail,
         //   isEveryday: true,
+        //   isFinished: false,
+        // });
+      } else {
+        // addDoc(colRef, {
+        //   title: this.taskName,
+        //   detail: this.taskDetail,
+        //   isEveryday: false,
+        //   isFinished: false,
         // });
       }
 
