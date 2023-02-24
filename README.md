@@ -48,10 +48,6 @@ SDSNによって2022年6月2日に発表された「Sustainable Development Repo
 ### フレームワーク・ライブラリ・モジュール
 - Flask
 - Vue
-- line-bot-sdk-python
-
-## 技術的工夫点
-- 
 
 # 関連リポジトリ
 - LINEBOTのリポジトリ
